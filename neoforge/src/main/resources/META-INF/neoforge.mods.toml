@@ -6,8 +6,8 @@ license = "Insert License Here"
 [[mods]]
 modId = "wurst_client_on_neoforge"
 version = "${version}"
-displayName = "Wurst Client on NeoForge"
-authors = "Me!"
+displayName = "A Hack Client on NeoForge 1.21.1"
+authors = "Kenzo101 Studios"
 description = '''
 This is an example description! Tell everyone what your mod is about!
 '''

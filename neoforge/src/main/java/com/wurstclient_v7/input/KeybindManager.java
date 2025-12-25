@@ -58,6 +58,7 @@ public final class KeybindManager {
         BINDS.put("mobvision_toggle", new Keybind(false, GLFW.GLFW_KEY_UNKNOWN, 0).toString());
         BINDS.put("fullbright_toggle", new Keybind(false, GLFW.GLFW_KEY_UNKNOWN, 0).toString());
         load();
+
     }
 
     private KeybindManager() { }

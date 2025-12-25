@@ -8,15 +8,14 @@ import com.wurstclient_v7.config.ConfigManager;
 import com.wurstclient_v7.input.KeybindManager;
 import org.lwjgl.glfw.GLFW;
 
- 
-
 public class ModuleScreen extends Screen {
     private final int WIDTH = 120;
-    private final int HEIGHT = 140;
+    private final int HEIGHT = 262; // Increased height to fit more modules
     private final int PADDING = 8;
 
     public ModuleScreen() {
         super(Component.literal("My hack client"));
+        System.out.println("[DEBUG] ModuleScreen constructor called.");
     }
     private String listeningAction = null; // action name we're capturing, null when idle
     @Override
@@ -27,6 +26,7 @@ public class ModuleScreen extends Screen {
     @Override
     @SuppressWarnings("null")
     public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
+        System.out.println("[DEBUG] ModuleScreen render method called.");
         // Dim background
         this.renderBackground(gfx, mouseX, mouseY, partialTick);
 
@@ -43,26 +43,14 @@ public class ModuleScreen extends Screen {
         int lineY = y + PADDING + 16;
 
         // Kill-aura entry
-        String kaLabel = "kill-aura";
-        String kaStatus = KillAura.isEnabled() ? "ON" : "OFF";
-        gfx.drawString(this.font, kaLabel, x + PADDING, lineY, 0xFFFFFFFF, false);
-        // Show status
-        gfx.drawString(this.font, kaStatus, x + WIDTH - PADDING - this.font.width(kaStatus) - 40, lineY, KillAura.isEnabled() ? 0xFF66FF66 : 0xFFFF6666, false);
-        // Show binding (for kill aura)
-        String binding = listeningAction != null && listeningAction.equals("kill_aura_toggle") ? "Press any key or click mouse..." : KeybindManager.getLabel("kill_aura_toggle");
-        gfx.drawString(this.font, binding, x + WIDTH - PADDING - this.font.width(binding), lineY, 0xFFFFFFAA, false);
-
-        // Autoattack entry (next line)
+        renderModule(gfx, x, lineY, "kill-aura", KillAura.isEnabled(), "kill_aura_toggle");
         lineY += 12;
-        String aaLabel = "autoattack";
-        String aaStatus = com.wurstclient_v7.feature.AutoAttack.isEnabled() ? "ON" : "OFF";
-        gfx.drawString(this.font, aaLabel, x + PADDING, lineY, 0xFFFFFFFF, false);
-        gfx.drawString(this.font, aaStatus, x + WIDTH - PADDING - this.font.width(aaStatus) - 40, lineY, com.wurstclient_v7.feature.AutoAttack.isEnabled() ? 0xFF66FF66 : 0xFFFF6666, false);
-        String aaBinding = listeningAction != null && listeningAction.equals("autoattack_toggle") ? "Press any key or click mouse..." : KeybindManager.getLabel("autoattack_toggle");
-        gfx.drawString(this.font, aaBinding, x + WIDTH - PADDING - this.font.width(aaBinding), lineY, 0xFFFFFFAA, false);
+
+        // Autoattack entry
+        renderModule(gfx, x, lineY, "autoattack", com.wurstclient_v7.feature.AutoAttack.isEnabled(), "autoattack_toggle");
+        lineY += 12;
 
         // Speedhack entry
-        lineY += 12;
         String shLabel = "speedhack";
         String shStatus = com.wurstclient_v7.feature.SpeedHack.isEnabled() ? "ON" : "OFF";
         double shMult = ConfigManager.getDouble("speed.multiplier", 1.5);
@@ -70,28 +58,63 @@ public class ModuleScreen extends Screen {
         gfx.drawString(this.font, shStatus, x + WIDTH - PADDING - this.font.width(shStatus) - 60, lineY, com.wurstclient_v7.feature.SpeedHack.isEnabled() ? 0xFF66FF66 : 0xFFFF6666, false);
         String shMultText = String.format("x%.2f", shMult);
         gfx.drawString(this.font, shMultText, x + WIDTH - PADDING - this.font.width(shMultText), lineY, 0xFFCCCCCC, false);
-        String shBinding = listeningAction != null && listeningAction.equals("speedhack_toggle") ? "Press any key or click mouse..." : KeybindManager.getLabel("speedhack_toggle");
+        String shBinding = listeningAction != null && listeningAction.equals("speedhack_toggle") ? "Press any key..." : KeybindManager.getLabel("speedhack_toggle");
         gfx.drawString(this.font, shBinding, x + WIDTH - PADDING - this.font.width(shBinding), lineY, 0xFFFFFFAA, false);
+        lineY += 12;
 
         // MobVision entry
+        renderModule(gfx, x, lineY, "mobvision", com.wurstclient_v7.feature.MobVision.isEnabled(), "mobvision_toggle");
         lineY += 12;
-        String mvLabel = "mobvision";
-        String mvStatus = com.wurstclient_v7.feature.MobVision.isEnabled() ? "ON" : "OFF";
-        gfx.drawString(this.font, mvLabel, x + PADDING, lineY, 0xFFFFFFFF, false);
-        gfx.drawString(this.font, mvStatus, x + WIDTH - PADDING - this.font.width(mvStatus) - 40, lineY, com.wurstclient_v7.feature.MobVision.isEnabled() ? 0xFF66FF66 : 0xFFFF6666, false);
-        String mvBinding = listeningAction != null && listeningAction.equals("mobvision_toggle") ? "Press any key or click mouse..." : KeybindManager.getLabel("mobvision_toggle");
-        gfx.drawString(this.font, mvBinding, x + WIDTH - PADDING - this.font.width(mvBinding), lineY, 0xFFFFFFAA, false);
 
         // FullBright entry
+        renderModule(gfx, x, lineY, "fullbright", com.wurstclient_v7.feature.FullBright.isEnabled(), "fullbright_toggle");
         lineY += 12;
-        String fbLabel = "fullbright";
-        String fbStatus = com.wurstclient_v7.feature.FullBright.isEnabled() ? "ON" : "OFF";
-        gfx.drawString(this.font, fbLabel, x + PADDING, lineY, 0xFFFFFFFF, false);
-        gfx.drawString(this.font, fbStatus, x + WIDTH - PADDING - this.font.width(fbStatus) - 40, lineY, com.wurstclient_v7.feature.FullBright.isEnabled() ? 0xFF66FF66 : 0xFFFF6666, false);
-        String fbBinding = listeningAction != null && listeningAction.equals("fullbright_toggle") ? "Press any key or click mouse..." : KeybindManager.getLabel("fullbright_toggle");
-        gfx.drawString(this.font, fbBinding, x + WIDTH - PADDING - this.font.width(fbBinding), lineY, 0xFFFFFFAA, false);
+
+        // Flight entry
+        renderModule(gfx, x, lineY, "flight", com.wurstclient_v7.feature.Flight.isEnabled(), "flight_toggle");
+        lineY += 12;
+
+        // NoFall entry
+        renderModule(gfx, x, lineY, "nofall", com.wurstclient_v7.feature.NoFall.isEnabled(), "nofall_toggle");
+        lineY += 12;
+
+        // XRay entry
+        renderModule(gfx, x, lineY, "xray", com.wurstclient_v7.feature.XRay.isEnabled(), "xray_toggle");
+        lineY += 12;
+
+        // Jetpack entry
+        renderModule(gfx, x, lineY, "jetpack", com.wurstclient_v7.feature.Jetpack.isEnabled(), "jetpack_toggle");
+        lineY += 12;
+
+        // Nuker entry
+        renderModule(gfx, x, lineY, "nuker", com.wurstclient_v7.feature.Nuker.isEnabled(), "nuker_toggle");
+        lineY += 12;
+
+        // Spider entry
+        renderModule(gfx, x, lineY, "spider", com.wurstclient_v7.feature.Spider.isEnabled(), "spider_toggle");
+        lineY += 12;
+
+        // ESP entry
+        renderModule(gfx, x, lineY, "esp", com.wurstclient_v7.feature.ESP.isEnabled(), "esp_toggle");
+        lineY += 12;
+
+        // Tracers entry
+        renderModule(gfx, x, lineY, "tracers", com.wurstclient_v7.feature.Tracers.isEnabled(), "tracers_toggle");
+        lineY += 12;
+
+        // Andromeda Bridge entry
+        renderModule(gfx, x, lineY, "andromeda", com.wurstclient_v7.feature.AndromedaBridge.isEnabled(), "andromeda_toggle");
+        lineY += 12;
 
         super.render(gfx, mouseX, mouseY, partialTick);
+    }
+
+    private void renderModule(GuiGraphics gfx, int x, int y, String label, boolean enabled, String action) {
+        String status = enabled ? "ON" : "OFF";
+        gfx.drawString(this.font, label, x + PADDING, y, 0xFFFFFFFF, false);
+        gfx.drawString(this.font, status, x + WIDTH - PADDING - this.font.width(status) - 40, y, enabled ? 0xFF66FF66 : 0xFFFF6666, false);
+        String binding = listeningAction != null && listeningAction.equals(action) ? "Press any key..." : KeybindManager.getLabel(action);
+        gfx.drawString(this.font, binding, x + WIDTH - PADDING - this.font.width(binding), y, 0xFFFFFFAA, false);
     }
 
     @Override
@@ -106,22 +129,30 @@ public class ModuleScreen extends Screen {
         int y = (this.height - HEIGHT) / 2;
         int lineY = y + PADDING + 16;
 
-        // If clicked on the kill-aura name area toggle it
-        if (mouseX >= x + PADDING && mouseX <= x + WIDTH - PADDING - 40 && mouseY >= lineY - 2 && mouseY <= lineY + 10) {
+        // Kill-aura
+        if (checkClick(mouseX, mouseY, x, lineY)) {
             KillAura.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("kill_aura_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // If clicked on the autoattack name area toggle it
-        int aaLabelY = lineY;
-        if (mouseX >= x + PADDING && mouseX <= x + WIDTH - PADDING - 40 && mouseY >= aaLabelY - 2 && mouseY <= aaLabelY + 10) {
+        // Autoattack
+        if (checkClick(mouseX, mouseY, x, lineY)) {
             com.wurstclient_v7.feature.AutoAttack.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("autoattack_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // Speedhack label area
-        int shLabelY = aaLabelY + 12;
-        if (mouseX >= x + PADDING && mouseX <= x + WIDTH - PADDING - 40 && mouseY >= shLabelY - 2 && mouseY <= shLabelY + 10) {
+        // Speedhack
+        if (checkClick(mouseX, mouseY, x, lineY)) {
             if (button == 1) {
                 // cycle presets on right click
                 double[] presets = {1.0, 1.25, 1.5, 2.0, 2.5};
@@ -136,81 +167,151 @@ public class ModuleScreen extends Screen {
             }
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("speedhack_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // MobVision label area
-        int mvLabelY = shLabelY + 12;
-        if (mouseX >= x + PADDING && mouseX <= x + WIDTH - PADDING - 40 && mouseY >= mvLabelY - 2 && mouseY <= mvLabelY + 10) {
+        // MobVision
+        if (checkClick(mouseX, mouseY, x, lineY)) {
             com.wurstclient_v7.feature.MobVision.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("mobvision_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // FullBright label area
-        int fbLabelY = mvLabelY + 12;
-        if (mouseX >= x + PADDING && mouseX <= x + WIDTH - PADDING - 40 && mouseY >= fbLabelY - 2 && mouseY <= fbLabelY + 10) {
+        // FullBright
+        if (checkClick(mouseX, mouseY, x, lineY)) {
             com.wurstclient_v7.feature.FullBright.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("fullbright_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // If clicked on the binding area for kill-aura
-        int bindStartX = x + WIDTH - PADDING - 40;
-        if (mouseX >= bindStartX && mouseX <= x + WIDTH - PADDING && mouseY >= lineY - 14 && mouseY <= lineY - 4) {
-            if (button == 1) { // right click clears binding
-                KeybindManager.clear("kill_aura_toggle");
-            } else {
-                listeningAction = "kill_aura_toggle";
-            }
+        // Flight
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.Flight.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("flight_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // If clicked on the binding area for autoattack
-        int aaBindY = lineY;
-        int aaBindStartX = x + WIDTH - PADDING - 40;
-        if (mouseX >= aaBindStartX && mouseX <= x + WIDTH - PADDING && mouseY >= aaBindY - 2 && mouseY <= aaBindY + 10) {
-            if (button == 1) {
-                KeybindManager.clear("autoattack_toggle");
-            } else {
-                listeningAction = "autoattack_toggle";
-            }
+        // NoFall
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.NoFall.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("nofall_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // Speedhack binding area
-        int shBindY = aaBindY + 12;
-        int shBindStartX = x + WIDTH - PADDING - 40;
-        if (mouseX >= shBindStartX && mouseX <= x + WIDTH - PADDING && mouseY >= shBindY - 2 && mouseY <= shBindY + 10) {
-            if (button == 1) {
-                KeybindManager.clear("speedhack_toggle");
-            } else {
-                listeningAction = "speedhack_toggle";
-            }
+        // XRay
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.XRay.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("xray_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // MobVision binding area
-        int mvBindY = shBindY + 12;
-        int mvBindStartX = x + WIDTH - PADDING - 40;
-        if (mouseX >= mvBindStartX && mouseX <= x + WIDTH - PADDING && mouseY >= mvBindY - 2 && mouseY <= mvBindY + 10) {
-            if (button == 1) {
-                KeybindManager.clear("mobvision_toggle");
-            } else {
-                listeningAction = "mobvision_toggle";
-            }
+        // Jetpack
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.Jetpack.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("jetpack_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
-        // FullBright binding area
-        int fbBindY = mvBindY + 12;
-        int fbBindStartX = x + WIDTH - PADDING - 40;
-        if (mouseX >= fbBindStartX && mouseX <= x + WIDTH - PADDING && mouseY >= fbBindY - 2 && mouseY <= fbBindY + 10) {
-            if (button == 1) {
-                KeybindManager.clear("fullbright_toggle");
-            } else {
-                listeningAction = "fullbright_toggle";
-            }
+        // Nuker
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.Nuker.toggle();
             return true;
         }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("nuker_toggle", button);
+             return true;
+        }
+        lineY += 12;
+
+        // Spider
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.Spider.toggle();
+            return true;
+        }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("spider_toggle", button);
+             return true;
+        }
+        lineY += 12;
+
+        // ESP
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.ESP.toggle();
+            return true;
+        }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("esp_toggle", button);
+             return true;
+        }
+        lineY += 12;
+
+        // Tracers
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.Tracers.toggle();
+            return true;
+        }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("tracers_toggle", button);
+             return true;
+        }
+        lineY += 12;
+
+        // Andromeda Bridge
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.AndromedaBridge.toggle();
+            return true;
+        }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+             handleBindClick("andromeda_toggle", button);
+             return true;
+        }
+        lineY += 12;
 
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private boolean checkClick(double mouseX, double mouseY, int x, int lineY) {
+        return mouseX >= x + PADDING && mouseX <= x + WIDTH - PADDING - 40 && mouseY >= lineY - 2 && mouseY <= lineY + 10;
+    }
+
+    private boolean checkBindClick(double mouseX, double mouseY, int x, int lineY, int button) {
+        int bindStartX = x + WIDTH - PADDING - 40;
+        return mouseX >= bindStartX && mouseX <= x + WIDTH - PADDING && mouseY >= lineY - 2 && mouseY <= lineY + 10;
+    }
+
+    private void handleBindClick(String action, int button) {
+        if (button == 1) {
+            KeybindManager.clear(action);
+        } else {
+            listeningAction = action;
+        }
     }
 
     @Override
@@ -228,6 +329,4 @@ public class ModuleScreen extends Screen {
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
-
-    
 }

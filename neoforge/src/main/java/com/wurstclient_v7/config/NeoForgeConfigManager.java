@@ -1,4 +1,4 @@
-package com.wurstclient_v7.neoforge.config;
+package com.wurstclient_v7.config;
 
 import java.io.File;
 import java.io.FileInputStream;
