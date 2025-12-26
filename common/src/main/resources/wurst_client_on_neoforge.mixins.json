@@ -4,6 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+    "InGameHudMixin",
+    "ClientTickMixin",
+    "EntityMixin",
+    "XRayMixin"
   ],
   "mixins": [],
   "injectors": {

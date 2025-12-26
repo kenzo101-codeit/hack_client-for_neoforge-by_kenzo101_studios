@@ -1,13 +1,13 @@
 package com.wurstclient_v7.feature;
 
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.core.Direction;
-import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.world.phys.Vec3;
 import org.lwjgl.glfw.GLFW;
 
 public final class AndromedaBridge {
@@ -39,8 +39,8 @@ public final class AndromedaBridge {
         mc.player.setXRot(startPitch);
 
         // 2. Movement Inputs
-        net.minecraft.client.KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_W, -1), true);
-        net.minecraft.client.KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_LEFT_CONTROL, -1), true);
+        KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_W, -1), true);
+        KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_LEFT_CONTROL, -1), true);
 
         // 3. Jumping
         if (mc.player.onGround()) {
@@ -80,8 +80,8 @@ public final class AndromedaBridge {
 
     private static void stopInput(Minecraft mc) {
         if (mc.options == null) return;
-        net.minecraft.client.KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_W, -1), false);
-        net.minecraft.client.KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_LEFT_CONTROL, -1), false);
-        net.minecraft.client.KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_SPACE, -1), false);
+        KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_W, -1), false);
+        KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_LEFT_CONTROL, -1), false);
+        KeyMapping.set(InputConstants.getKey(GLFW.GLFW_KEY_SPACE, -1), false);
     }
 }

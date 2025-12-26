@@ -15,7 +15,6 @@ import com.wurstclient_v7.feature.SpeedHack;
 import com.wurstclient_v7.feature.Spider;
 import com.wurstclient_v7.feature.Tracers;
 import com.wurstclient_v7.feature.XRay;
-import com.wurstclient_v7.feature.GodMode;
 import com.wurstclient_v7.input.KeybindManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -84,9 +83,7 @@ public class ModuleScreen extends Screen {
         lineY += 12;
         renderModule(gfx, x, lineY, "andromeda", AndromedaBridge.isEnabled(), "andromeda_toggle");
         lineY += 12;
-        renderModule(gfx, x, lineY, "safewalk", AndromedaBridge.isEnabled(), "safewalk_toggle");
-        renderModule(gfx, x, lineY, "godmode (" + GodMode.getTarget() + ")", GodMode.isEnabled(), "godmode_toggle");
-        lineY += 12;
+
         super.render(gfx, mouseX, mouseY, partialTick);
     }
 
@@ -246,21 +243,6 @@ public class ModuleScreen extends Screen {
         }
         if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
             handleBindClick("andromeda_toggle", button);
-            return true;
-        }
-
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            if (button == 1) { // Right Click
-                // This toggles between protecting yourself and
-                // protecting everyone (or you could set a specific name)
-                if (GodMode.getTarget().equals("Self")) {
-                    GodMode.setTarget("Everyone");
-                } else {
-                    GodMode.setTarget(""); // Back to Self
-                }
-            } else {
-                GodMode.toggle();
-            }
             return true;
         }
 
