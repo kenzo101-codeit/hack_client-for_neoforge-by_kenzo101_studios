@@ -8,7 +8,9 @@
     "ClientTickMixin",
     "BlockMixin",
     "EntityMixin",
-    "WorldRendererMixin"
+    "WorldRendererMixin",
+    "SafeWalkMixin",
+    "XRayMixin"
   ],
   "refmap": "wurst_client_on_neoforge.refmap.json",
   "mixins": [],

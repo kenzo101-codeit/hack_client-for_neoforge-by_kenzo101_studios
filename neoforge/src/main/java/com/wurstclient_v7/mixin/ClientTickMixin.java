@@ -28,6 +28,8 @@ public class ClientTickMixin {
     private static boolean prevESPPressed = false;
     private static boolean prevTracersPressed = false;
     private static boolean prevAndromedaPressed = false;
+    private static boolean prevSafeWalkPressed = false;
+    private static boolean prevGodModePressed = false;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void onTick(CallbackInfo ci) {
@@ -165,6 +167,21 @@ public class ClientTickMixin {
             System.out.println("Andromeda Bridge toggled: " + (com.wurstclient_v7.feature.AndromedaBridge.isEnabled() ? "ON" : "OFF"));
         }
         prevAndromedaPressed = andromedaPressed;
+
+        boolean swPressed = KeybindManager.isPressed(window, "safewalk_toggle");
+        if (swPressed && !prevSafeWalkPressed) {
+            com.wurstclient_v7.feature.SafeWalk.toggle();
+        }
+        prevSafeWalkPressed = swPressed;
+
+        // GodMode toggle key
+        boolean godPressed = KeybindManager.isPressed(window, "godmode_toggle");
+        if (godPressed && !prevGodModePressed) {
+            com.wurstclient_v7.feature.GodMode.toggle();
+            // Optional: Print to console for debugging
+            System.out.println("GodMode toggled: " + (com.wurstclient_v7.feature.GodMode.isEnabled() ? "ON" : "OFF"));
+        }
+        prevGodModePressed = godPressed;
 
         // Mouse left click handling (for autoattack)
         boolean leftPressed = InputConstants.isKeyDown(window, org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT);

@@ -84,6 +84,10 @@ public class ModuleScreen extends Screen {
         renderModule(gfx, x, lineY, "andromeda", AndromedaBridge.isEnabled(), "andromeda_toggle");
         lineY += 12;
 
+
+        renderModule(gfx, x, lineY, "safewalk", com.wurstclient_v7.feature.SafeWalk.isEnabled(), "safewalk_toggle");
+        lineY += 12;
+
         super.render(gfx, mouseX, mouseY, partialTick);
     }
 
@@ -243,6 +247,12 @@ public class ModuleScreen extends Screen {
         }
         if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
             handleBindClick("andromeda_toggle", button);
+            return true;
+        }
+
+        // 1. Add SafeWalk Click handling
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.SafeWalk.toggle();
             return true;
         }
 
