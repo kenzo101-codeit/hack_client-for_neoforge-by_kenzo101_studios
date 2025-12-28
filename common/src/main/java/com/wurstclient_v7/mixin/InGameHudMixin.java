@@ -30,7 +30,7 @@ public class InGameHudMixin {
         String[] modules = {
                 "AndromedaBridge", "AutoAttack", "ESP", "Flight",
                 "FullBright", "Jetpack", "KillAura", "MobVision",
-                "NoFall", "Nuker", "SpeedHack", "Spider", "Tracers", "XRay", "SafeWalk"
+                "NoFall", "Nuker", "SpeedHack", "Spider", "Tracers", "XRay", "SafeWalk", "ElytraMace"
         };
 
         for (String mod : modules) {
@@ -50,7 +50,6 @@ public class InGameHudMixin {
             case "FullBright" -> com.wurstclient_v7.feature.FullBright.isEnabled();
             case "Jetpack" -> com.wurstclient_v7.feature.Jetpack.isEnabled();
             case "KillAura" -> com.wurstclient_v7.feature.KillAura.isEnabled();
-            case "MobVision" -> com.wurstclient_v7.feature.MobVision.isEnabled();
             case "NoFall" -> com.wurstclient_v7.feature.NoFall.isEnabled();
             case "Nuker" -> com.wurstclient_v7.feature.Nuker.isEnabled();
             case "SpeedHack" -> com.wurstclient_v7.feature.SpeedHack.isEnabled();
@@ -58,6 +57,7 @@ public class InGameHudMixin {
             case "Tracers" -> com.wurstclient_v7.feature.Tracers.isEnabled();
             case "XRay" -> com.wurstclient_v7.feature.XRay.isEnabled();
             case "SafeWalk" -> com.wurstclient_v7.feature.SafeWalk.isEnabled();
+            case "ElytraMace" -> com.wurstclient_v7.feature.ElytraMace.isEnabled();
             default -> false;
         };
     }

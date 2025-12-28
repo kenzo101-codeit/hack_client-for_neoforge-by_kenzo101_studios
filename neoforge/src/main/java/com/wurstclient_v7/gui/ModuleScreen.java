@@ -8,7 +8,6 @@ import com.wurstclient_v7.feature.Flight;
 import com.wurstclient_v7.feature.FullBright;
 import com.wurstclient_v7.feature.Jetpack;
 import com.wurstclient_v7.feature.KillAura;
-import com.wurstclient_v7.feature.MobVision;
 import com.wurstclient_v7.feature.NoFall;
 import com.wurstclient_v7.feature.Nuker;
 import com.wurstclient_v7.feature.SpeedHack;
@@ -16,7 +15,6 @@ import com.wurstclient_v7.feature.Spider;
 import com.wurstclient_v7.feature.Tracers;
 import com.wurstclient_v7.feature.XRay;
 import com.wurstclient_v7.feature.GodMode;
-import com.wurstclient_v7.feature.SafeWalk;
 import com.wurstclient_v7.input.KeybindManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -63,8 +61,6 @@ public class ModuleScreen extends Screen {
         String shBinding = (this.listeningAction != null && this.listeningAction.equals("speedhack_toggle")) ? "Press any key..." : KeybindManager.getLabel("speedhack_toggle");
         gfx.drawString(this.font, shBinding, x + 120 - 8 - this.font.width(shBinding), lineY, -86, false);
         lineY += 12;
-        renderModule(gfx, x, lineY, "mobvision", MobVision.isEnabled(), "mobvision_toggle");
-        lineY += 12;
         renderModule(gfx, x, lineY, "fullbright", FullBright.isEnabled(), "fullbright_toggle");
         lineY += 12;
         renderModule(gfx, x, lineY, "flight", Flight.isEnabled(), "flight_toggle");
@@ -90,6 +86,8 @@ public class ModuleScreen extends Screen {
         // Now render GodMode on the next line
         renderModule(gfx, x, lineY, "godmode (" + GodMode.getTarget() + ")", GodMode.isEnabled(), "godmode_toggle");
         lineY += 12;
+        renderModule(gfx, x, lineY, "elytra-mace", com.wurstclient_v7.feature.ElytraMace.isEnabled(), "elytra_mace_toggle");
+
 
         super.render(gfx, mouseX, mouseY, partialTick);
     }
@@ -151,15 +149,6 @@ public class ModuleScreen extends Screen {
         }
         if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
             handleBindClick("speedhack_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            MobVision.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("mobvision_toggle", button);
             return true;
         }
         lineY += 12;
@@ -252,8 +241,9 @@ public class ModuleScreen extends Screen {
             handleBindClick("andromeda_toggle", button);
             return true;
         }
+        lineY += 12; // THIS IS THE FIX: Move the hitbox down for the next module!
 
-        // 1. Add SafeWalk Click handling
+        // SafeWalk Click
         if (checkClick(mouseX, mouseY, x, lineY)) {
             com.wurstclient_v7.feature.SafeWalk.toggle();
             return true;
@@ -262,9 +252,9 @@ public class ModuleScreen extends Screen {
             handleBindClick("safewalk_toggle", button);
             return true;
         }
-        lineY += 12;
+        lineY += 12; // Move down again for GodMode
 
-        // 2. Add GodMode Click handling (Fixing the "a" typo and adding bind support)
+        // GodMode Click
         if (checkClick(mouseX, mouseY, x, lineY)) {
             if (button == 1) { // Right Click
                 if (GodMode.getTarget().equals("Self")) {
@@ -279,6 +269,16 @@ public class ModuleScreen extends Screen {
         }
         if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
             handleBindClick("godmode_toggle", button);
+            return true;
+        }
+
+        lineY += 12;
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.ElytraMace.toggle();
+            return true;
+        }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+            handleBindClick("elytra_mace_toggle", button);
             return true;
         }
 

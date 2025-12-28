@@ -8,7 +8,6 @@ import com.wurstclient_v7.feature.Flight;
 import com.wurstclient_v7.feature.FullBright;
 import com.wurstclient_v7.feature.Jetpack;
 import com.wurstclient_v7.feature.KillAura;
-import com.wurstclient_v7.feature.MobVision;
 import com.wurstclient_v7.feature.NoFall;
 import com.wurstclient_v7.feature.Nuker;
 import com.wurstclient_v7.feature.SpeedHack;
@@ -61,8 +60,6 @@ public class ModuleScreen extends Screen {
         String shBinding = (this.listeningAction != null && this.listeningAction.equals("speedhack_toggle")) ? "Press any key..." : KeybindManager.getLabel("speedhack_toggle");
         gfx.drawString(this.font, shBinding, x + 120 - 8 - this.font.width(shBinding), lineY, -86, false);
         lineY += 12;
-        renderModule(gfx, x, lineY, "mobvision", MobVision.isEnabled(), "mobvision_toggle");
-        lineY += 12;
         renderModule(gfx, x, lineY, "fullbright", FullBright.isEnabled(), "fullbright_toggle");
         lineY += 12;
         renderModule(gfx, x, lineY, "flight", Flight.isEnabled(), "flight_toggle");
@@ -83,10 +80,10 @@ public class ModuleScreen extends Screen {
         lineY += 12;
         renderModule(gfx, x, lineY, "andromeda", AndromedaBridge.isEnabled(), "andromeda_toggle");
         lineY += 12;
-
-
         renderModule(gfx, x, lineY, "safewalk", com.wurstclient_v7.feature.SafeWalk.isEnabled(), "safewalk_toggle");
         lineY += 12;
+        renderModule(gfx, x, lineY, "elytra-mace", com.wurstclient_v7.feature.ElytraMace.isEnabled(), "elytra_mace_toggle");
+
 
         super.render(gfx, mouseX, mouseY, partialTick);
     }
@@ -148,15 +145,6 @@ public class ModuleScreen extends Screen {
         }
         if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
             handleBindClick("speedhack_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            MobVision.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("mobvision_toggle", button);
             return true;
         }
         lineY += 12;
@@ -249,10 +237,25 @@ public class ModuleScreen extends Screen {
             handleBindClick("andromeda_toggle", button);
             return true;
         }
+        lineY += 12; // THIS IS THE FIX: Move the hitbox down for the next module!
 
-        // 1. Add SafeWalk Click handling
+        // SafeWalk Click
         if (checkClick(mouseX, mouseY, x, lineY)) {
             com.wurstclient_v7.feature.SafeWalk.toggle();
+            return true;
+        }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+            handleBindClick("safewalk_toggle", button);
+            return true;
+        }
+
+        lineY += 12;
+        if (checkClick(mouseX, mouseY, x, lineY)) {
+            com.wurstclient_v7.feature.ElytraMace.toggle();
+            return true;
+        }
+        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+            handleBindClick("elytra_mace_toggle", button);
             return true;
         }
 

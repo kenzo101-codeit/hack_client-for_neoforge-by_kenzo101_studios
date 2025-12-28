@@ -17,7 +17,6 @@ public class ClientTickMixin {
     private static boolean prevLeftPressed = false;
     private static boolean prevAutoPressed = false;
     private static boolean prevSpeedPressed = false;
-    private static boolean prevMobPressed = false;
     private static boolean prevFBPressed = false;
     private static boolean prevFlightPressed = false;
     private static boolean prevNoFallPressed = false;
@@ -29,6 +28,8 @@ public class ClientTickMixin {
     private static boolean prevTracersPressed = false;
     private static boolean prevAndromedaPressed = false;
     private static boolean prevSafeWalkPressed = false;
+    private static boolean prevGodModePressed = false;
+    private static boolean prevElytraMacePressed = false;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void onTick(CallbackInfo ci) {
@@ -78,14 +79,6 @@ public class ClientTickMixin {
             com.wurstclient_v7.feature.SpeedHack.toggle();
         }
         prevSpeedPressed = shPressed;
-
-        // MobVision toggle key
-        boolean mvPressed = KeybindManager.isPressed(window, "mobvision_toggle");
-        if (mvPressed && !prevMobPressed) {
-            com.wurstclient_v7.feature.MobVision.toggle();
-            System.out.println("MobVision toggled: " + (com.wurstclient_v7.feature.MobVision.isEnabled() ? "ON" : "OFF"));
-        }
-        prevMobPressed = mvPressed;
 
         // FullBright toggle key
         boolean fbPressed = KeybindManager.isPressed(window, "fullbright_toggle");
@@ -173,6 +166,12 @@ public class ClientTickMixin {
         }
         prevSafeWalkPressed = swPressed;
 
+        boolean emPressed = KeybindManager.isPressed(window, "elytra_mace_toggle");
+        if (emPressed && !prevElytraMacePressed) {
+            com.wurstclient_v7.feature.ElytraMace.toggle();
+        }
+        prevElytraMacePressed = emPressed;
+
         // Mouse left click handling (for autoattack)
         boolean leftPressed = InputConstants.isKeyDown(window, org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT);
         if (leftPressed && !prevLeftPressed) {
@@ -180,12 +179,20 @@ public class ClientTickMixin {
         }
         prevLeftPressed = leftPressed;
 
+        // SafeWalk Execution Logic
+        if (com.wurstclient_v7.feature.SafeWalk.isEnabled()) {
+            // This checks if you are on the ground.
+            // We usually only want to force-sneak if we are on the ground so we don't mess up flying/falling.
+            if (mc.player != null && mc.player.onGround()) {
+                // Option A: The standard way to force a keybind in Minecraft
+                mc.options.keyShift.setDown(true);
+            }
+        }
+
         // Call feature tick handler
         KillAura.onClientTick();
         // SpeedHack tick handler (applies boosts when movement begins)
         com.wurstclient_v7.feature.SpeedHack.onClientTick();
-        // MobVision and FullBright tick handlers for effects
-        com.wurstclient_v7.feature.MobVision.onClientTick();
         com.wurstclient_v7.feature.FullBright.onClientTick();
         com.wurstclient_v7.feature.Flight.onClientTick();
         com.wurstclient_v7.feature.NoFall.onClientTick();

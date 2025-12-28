@@ -1,19 +1,65 @@
-package com.wurstclient_v7.mixin;
+package com.wurstclient_v7.mixin; // Must be at the very top!
 
-import org.spongepowered.asm.mixin.Mixin;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.DeltaTracker;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.minecraft.client.gui.Font;
 
 @Mixin(Gui.class)
 public class InGameHudMixin {
-    @Inject(method = "render(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V", at = @At("TAIL"))
-    @SuppressWarnings("null")
-    private void onRender(net.minecraft.client.gui.GuiGraphics guiGraphics, net.minecraft.client.DeltaTracker tracker, CallbackInfo ci) {
-        // This is a harmless example: print to the console when feature is enabled.
-        if (com.wurstclient_v7.feature.KillAura.isEnabled()) {
-            System.out.println("KillAura is ON (from InGameHudMixin)");
+
+    @Inject(method = "render", at = @At("TAIL"))
+    private void onRender(GuiGraphics guiGraphics, DeltaTracker tracker, CallbackInfo ci) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.options.hideGui || mc.player == null) return;
+
+        int x = 5;
+        int y = 5;
+        int color = 0xFF00FF00; // Green for enabled modules
+
+        // Draw Client Watermark
+        guiGraphics.drawString(mc.font, "MyHackClient v1.0", x, y, 0xFFFFFFFF, true);
+        y += 12;
+
+        // The list of modules from your file
+        String[] modules = {
+                "AndromedaBridge", "AutoAttack", "ESP", "Flight",
+                "FullBright", "Jetpack", "KillAura", "MobVision",
+                "NoFall", "Nuker", "SpeedHack", "Spider", "Tracers", "XRay", "SafeWalk", "GodMode", "ElytraMace"
+        };
+
+        for (String mod : modules) {
+            if (isModEnabled(mod)) {
+                guiGraphics.drawString(mc.font, "[+] " + mod, x, y, color, true);
+                y += 10;
+            }
         }
+    }
+
+    private boolean isModEnabled(String name) {
+        return switch (name) {
+            case "AndromedaBridge" -> com.wurstclient_v7.feature.AndromedaBridge.isEnabled();
+            case "AutoAttack" -> com.wurstclient_v7.feature.AutoAttack.isEnabled();
+            case "ESP" -> com.wurstclient_v7.feature.ESP.isEnabled();
+            case "Flight" -> com.wurstclient_v7.feature.Flight.isEnabled();
+            case "FullBright" -> com.wurstclient_v7.feature.FullBright.isEnabled();
+            case "Jetpack" -> com.wurstclient_v7.feature.Jetpack.isEnabled();
+            case "KillAura" -> com.wurstclient_v7.feature.KillAura.isEnabled();
+            case "NoFall" -> com.wurstclient_v7.feature.NoFall.isEnabled();
+            case "Nuker" -> com.wurstclient_v7.feature.Nuker.isEnabled();
+            case "SpeedHack" -> com.wurstclient_v7.feature.SpeedHack.isEnabled();
+            case "Spider" -> com.wurstclient_v7.feature.Spider.isEnabled();
+            case "Tracers" -> com.wurstclient_v7.feature.Tracers.isEnabled();
+            case "XRay" -> com.wurstclient_v7.feature.XRay.isEnabled();
+            case "SafeWalk" -> com.wurstclient_v7.feature.SafeWalk.isEnabled();
+            case "GodMode" -> com.wurstclient_v7.feature.GodMode.isEnabled();
+            case "ElytraMace" -> com.wurstclient_v7.feature.ElytraMace.isEnabled();
+            default -> false;
+        };
     }
 }

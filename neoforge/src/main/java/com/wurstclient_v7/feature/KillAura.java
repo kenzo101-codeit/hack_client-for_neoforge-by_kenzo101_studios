@@ -26,26 +26,22 @@ public final class KillAura {
         if (!enabled) return;
 
         Minecraft mc = Minecraft.getInstance();
-        if (mc == null) return;
-        Player player = mc.player;
-        if (player == null) return;
+        if (mc == null || mc.player == null || mc.level == null) return;
 
-        long gameTime = player.level().getGameTime();
-        if (gameTime - lastTick < delayTicks) return;
-        lastTick = gameTime;
+        // OPTIMIZATION: Only attack if the weapon is fully charged (1.0f)
+        // This ensures maximum damage and knockback.
+        if (mc.player.getAttackStrengthScale(0.5f) < 0.9f) return;
 
-        MinecraftServer server = mc.getSingleplayerServer();
-        if (server == null) return; // only run actions on integrated server
-
-        // Build a command that damages the nearest non-player entity within range
-        String cmd = String.format("/damage @e[type=!player,limit=1,sort=nearest,distance=..%d,type=!minecraft:arrow,type=!minecraft:item,tag=!hack] 3 minecraft:mob_attack by @p", range);
-
-        // Construct a CommandSourceStack similar to what server-side logic would use
-        CommandSourceStack source = new CommandSourceStack(CommandSource.NULL,
-            player.position(), player.getRotationVector(),
-            player.level() instanceof ServerLevel ? (ServerLevel) player.level() : null,
-            4, player.getName().getString(), player.getDisplayName(), server, (Entity) player);
-
-        server.getCommands().performPrefixedCommand(source, cmd);
+        for (Entity entity : mc.level.entitiesForRendering()) {
+            if (entity != mc.player && entity.isAlive() && mc.player.distanceTo(entity) <= range) {
+                if (!(entity instanceof Player)) {
+                    // Visual swing
+                    mc.player.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
+                    // Logic attack
+                    mc.gameMode.attack(mc.player, entity);
+                    break;
+                }
+            }
+        }
     }
 }

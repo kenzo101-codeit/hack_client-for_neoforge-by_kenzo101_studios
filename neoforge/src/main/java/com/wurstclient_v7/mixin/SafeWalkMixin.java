@@ -1,25 +1,28 @@
 package com.wurstclient_v7.mixin;
 
-import com.wurstclient_v7.feature.SafeWalk;
+import com.wurstclient_v7.feature.SafeWalk; // <--- 1. IMPORT YOUR FEATURE
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Entity.class)
-public abstract class SafeWalkMixin {
+    @Mixin(Entity.class)
+    public abstract class SafeWalkMixin {
 
-    // In 1.21.1, the method name is usually 'isSteppingCarefully'
-    // but if that fails, we target the logic that checks for sneaking/ledges
-    @Inject(method = "isSteppingCarefully", at = @At("HEAD"), cancellable = true)
-    private void onIsSteppingCarefully(CallbackInfoReturnable<Boolean> cir) {
-        // We only want this to apply to the PLAYER, not every mob in the world!
-        if ((Object) this instanceof Player) {
+        @Inject(method = "isSteppingCarefully", at = @At("HEAD"), cancellable = true)
+        private void onIsSteppingCarefully(CallbackInfoReturnable<Boolean> cir) {
+
+            // 2. LINKING THE LOGIC:
+            // We check the 'isEnabled()' method from your SafeWalk.java file
             if (SafeWalk.isEnabled()) {
-                cir.setReturnValue(true);
+
+                // 3. ONLY APPLY TO THE PLAYER:
+                // This prevents every pig and zombie from being unable to fall off ledges
+                if ((Object) this instanceof LocalPlayer) {
+                    cir.setReturnValue(true); // Force the "Safe" state
+                }
             }
         }
     }
-}

@@ -27,24 +27,16 @@ public final class AutoAttack {
         if (!enabled) return;
 
         Minecraft mc = Minecraft.getInstance();
-        if (mc == null) return;
-        Player player = mc.player;
-        if (player == null) return;
+        if (mc == null || mc.player == null || mc.crosshairPickEntity == null) return;
 
-        long gameTime = player.level().getGameTime();
-        if (gameTime - lastTick < delayTicks) return;
-        lastTick = gameTime;
+        Entity target = mc.crosshairPickEntity;
 
-        MinecraftServer server = mc.getSingleplayerServer();
-        if (server == null) return; // only run on integrated server
-
-        String cmd = String.format("/damage @e[type=!player,limit=1,sort=nearest,distance=..%d,type=!minecraft:arrow,type=!minecraft:item,tag=!hack] 3 minecraft:mob_attack by @p", range);
-
-        CommandSourceStack source = new CommandSourceStack(CommandSource.NULL,
-            player.position(), player.getRotationVector(),
-            player.level() instanceof ServerLevel ? (ServerLevel) player.level() : null,
-            4, player.getName().getString(), player.getDisplayName(), server, (Entity) player);
-
-        server.getCommands().performPrefixedCommand(source, cmd);
+        // Check range and if it's alive
+        if (target.isAlive() && mc.player.distanceTo(target) <= range) {
+            // Attack the entity you are looking at
+            mc.gameMode.attack(mc.player, target);
+            // Note: Minecraft naturally swings the arm on left click,
+            // so we don't necessarily need mc.player.swing() here.
+        }
     }
 }
