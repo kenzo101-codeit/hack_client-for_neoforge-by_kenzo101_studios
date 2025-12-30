@@ -1,42 +1,50 @@
 package com.wurstclient_v7.feature;
 
-import com.wurstclient_v7.config.ConfigManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.CommandSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.entity.player.Player;
 
 public final class AutoAttack {
-    private static boolean enabled = ConfigManager.getBoolean("autoattack.enabled", false);
-    private static int timer = 0;
+    private static volatile boolean enabled = false;
+    private static int range = 6;
+    private static long lastTick = 0;
+    private static int delayTicks = 2;
 
     private AutoAttack() { }
 
     public static boolean isEnabled() { return enabled; }
 
-    public static void toggle() {
-        enabled = !enabled;
-        ConfigManager.setBoolean("autoattack.enabled", enabled);
-    }
+    public static void toggle() { enabled = !enabled; }
 
-    // This is called by your Mixin when you hold or click Left Mouse
+    public static void setRange(int r) { range = r; }
+
+    // Triggered on a left click event (client-side)
     public static void onLeftClick() {
         if (!enabled) return;
 
         Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || mc.hitResult == null) return;
+        if (mc == null) return;
+        Player player = mc.player;
+        if (player == null) return;
 
-        // Check if we are looking at an entity
-        if (mc.hitResult.getType() == HitResult.Type.ENTITY) {
-            Entity target = ((EntityHitResult) mc.hitResult).getEntity();
+        long gameTime = player.level().getGameTime();
+        if (gameTime - lastTick < delayTicks) return;
+        lastTick = gameTime;
 
-            // Only attack if it's alive and not the player
-            if (target.isAlive() && target != mc.player) {
-                // Perform the attack
-                mc.gameMode.attack(mc.player, target);
-                mc.player.swing(InteractionHand.MAIN_HAND);
-            }
-        }
+        MinecraftServer server = mc.getSingleplayerServer();
+        if (server == null) return; // only run on integrated server
+
+        String cmd = String.format("/damage @e[type=!player,limit=1,sort=nearest,distance=..%d,type=!minecraft:arrow,type=!minecraft:item,tag=!hack] 3 minecraft:mob_attack by @p", range);
+
+        CommandSourceStack source = new CommandSourceStack(CommandSource.NULL,
+            player.position(), player.getRotationVector(),
+            player.level() instanceof ServerLevel ? (ServerLevel) player.level() : null,
+            4, player.getName().getString(), player.getDisplayName(), server, (Entity) player);
+
+        server.getCommands().performPrefixedCommand(source, cmd);
     }
 }

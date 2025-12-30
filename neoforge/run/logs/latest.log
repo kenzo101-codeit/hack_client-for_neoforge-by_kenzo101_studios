@@ -1,0 +1,49 @@
+[16:32:41] [main/INFO] (Launcher) ModLauncher running: args [--launchTarget, forgeclientdev, --version, 21.1.215, --assetIndex, 1.21.1-17, --assetsDir, /home/kenzo101/.gradle/caches/fabric-loom/assets, --gameDir, ., --fml.fmlVersion, 4.0.42, --fml.mcVersion, 1.21.1, --fml.neoForgeVersion, 21.1.215, --fml.neoFormVersion, 20240808.144430]
+[16:32:41] [main/INFO] (Launcher) JVM identified as Oracle Corporation Java HotSpot(TM) 64-Bit Server VM 21.0.9+7-LTS-338
+[16:32:41] [main/INFO] (Launcher) ModLauncher 11.0.5+main.901c6ea8 starting: java version 21.0.9 by Oracle Corporation; OS Linux arch amd64 version 6.14.0-36-generic
+[16:32:42] [main/INFO] (unprotect) Initializing Unprotect using ModLauncher backend, target: Minecraft and loader classes (minecraft+forge)
+[16:32:44] [main/INFO] (ImmediateWindowHandler) Loading ImmediateWindowProvider fmlearlywindow
+[16:32:45] [main/ERROR] (EARLYDISPLAY) WARNING : glfwInit took 1.013632368 seconds to start.
+[16:32:45] [main/INFO] (EARLYDISPLAY) Trying GL version 4.6
+[16:32:46] [main/INFO] (EARLYDISPLAY) Trying GL version 4.5
+[16:32:46] [main/INFO] (EARLYDISPLAY) Trying GL version 4.4
+[16:32:46] [main/INFO] (EARLYDISPLAY) Trying GL version 4.3
+[16:32:46] [main/INFO] (EARLYDISPLAY) Trying GL version 4.2
+[16:32:46] [main/INFO] (EARLYDISPLAY) Requested GL version 4.2 got version 4.2
+[16:32:49] [main/INFO] (mixin) SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/home/kenzo101/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.15.2+mixin.0.8.7/2af2f021d8e02a0220dc27a7a72b4666d66d44ca/sponge-mixin-0.15.2+mixin.0.8.7.jar%23110!/ Service=ModLauncher Env=CLIENT
+[16:32:50] [pool-5-thread-1/INFO] (EARLYDISPLAY) GL info: Mesa Intel(R) HD Graphics 2500 (IVB GT1) GL version 4.2 (Core Profile) Mesa 25.0.7-0ubuntu0.24.04.2, Intel
+[16:32:51] [main/INFO] (ModDiscoverer) Found mod file "neoforge-21.1.215-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215.jar" [locator: neoforge devenv provider ([/home/kenzo101/.gradle/caches/fabric-loom/minecraftMaven/net/minecraft/neoforge-21.1.215-minecraft-merged/1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215/neoforge-21.1.215-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215.jar])]
+[16:32:52] [main/INFO] (ModDiscoverer) Found mod file "neoforge-21.1.215-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215.jar" [locator: neoforge devenv provider ([/home/kenzo101/.gradle/caches/fabric-loom/minecraftMaven/net/minecraft/neoforge-21.1.215-minecraft-merged/1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215/neoforge-21.1.215-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215.jar])]
+[16:32:52] [main/INFO] (ModDiscoverer) Found mod file "main" [locator: userdev mods and services, reader: mod manifest]
+[16:32:52] [main/INFO] (ModDiscoverer) Found mod file "neoforge-21.1.215-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215.jar" [locator: userdev mods and services, reader: mod manifest]
+[16:32:52] [main/INFO] (ModDiscoverer) Found mod file "2221165983025853916.jar" [locator: userdev mods and services, reader: mod manifest]
+[16:32:53] [main/INFO] (ModDiscoverer) Found gamelibrary file "mixinextras-neoforge-0.5.0.jar" [locator: userdev mods and services, reader: mod manifest]
+[16:32:55] [main/WARN] (JarSelector) Attempted to select a dependency jar for JarJar which was passed in as source: library:mixinextras.neoforge. Using Mod File: /home/kenzo101/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-neoforge/0.5.0/d734b83ce6542bb70ea31755c1595b88992dbe65/mixinextras-neoforge-0.5.0.jar
+[16:32:55] [main/INFO] (JarInJarDependencyLocator) Found 1 dependencies adding them to mods collection
+[16:32:55] [main/INFO] (ModDiscoverer) Found library file "net.neoforged.neoforge-coremods-21.1.215.jar" [parent: neoforge-21.1.215-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215.jar, locator: jarinjar, reader: mod manifest]
+[16:32:55] [main/INFO] (ModDiscoverer) 
+     Mod List:
+		Name Version (Mod Id)
+
+		generated_b6e202b 1 (generated_b6e202b)
+		Minecraft 1.21.1 (minecraft)
+		NeoForge 21.1.215 (neoforge)
+		Wurst Client on NeoForge 1.0.0 (wurst_client_on_neoforge)
+[16:33:07] [main/ERROR] (ModuleLayerHandler) Error while resolving modules.
+java.lang.module.ResolutionException: Module generated_b6e202b contains package com.wurstclient_v7.mixin, module wurst_client_on_neoforge exports package com.wurstclient_v7.mixin to generated_b6e202b
+	at java.base/java.lang.module.Resolver.resolveFail(Resolver.java:900) ~[?:?]
+	at java.base/java.lang.module.Resolver.failTwoSuppliers(Resolver.java:806) ~[?:?]
+	at java.base/java.lang.module.Resolver.checkExportSuppliers(Resolver.java:735) ~[?:?]
+	at java.base/java.lang.module.Resolver.finish(Resolver.java:380) ~[?:?]
+	at java.base/java.lang.module.Configuration.<init>(Configuration.java:139) ~[?:?]
+	at java.base/java.lang.module.Configuration.resolveAndBind(Configuration.java:493) ~[?:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.ModuleLayerHandler.buildLayer(ModuleLayerHandler.java:81) [modlauncher-11.0.5.jar%23101!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.TransformationServicesHandler.buildTransformingClassLoader(TransformationServicesHandler.java:54) [modlauncher-11.0.5.jar%23101!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.run(Launcher.java:101) [modlauncher-11.0.5.jar%23101!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.main(Launcher.java:74) [modlauncher-11.0.5.jar%23101!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) [modlauncher-11.0.5.jar%23101!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) [modlauncher-11.0.5.jar%23101!/:?]
+	at cpw.mods.bootstraplauncher.BootstrapLauncher.run(BootstrapLauncher.java:210) [bootstraplauncher-2.0.2.jar:?]
+	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:69) [bootstraplauncher-2.0.2.jar:?]
+	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86) [dev-launch-injector-0.2.1+build.8.jar:?]
+	at dev.architectury.transformer.TransformerRuntime.main(TransformerRuntime.java:220) [architectury-transformer-5.2.87-runtime.jar:5.2.87]

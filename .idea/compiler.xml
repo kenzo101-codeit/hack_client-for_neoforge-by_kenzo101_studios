@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="21" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="hack_client_on_neoforge.common" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/common/build/classes/java/main/hack_client_on_neoforge-common-common-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/common/build/loom-cache/mixin-map-loom.mappings.1_21_1.layered+hash.40359-v2.main.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.1/loom.mappings.1_21_1.layered+hash.40359-v2/mappings.tiny" />
+      <module name="hack_client_on_neoforge.common.main" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/common/build/classes/java/main/hack_client_on_neoforge-common-common-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/common/build/loom-cache/mixin-map-loom.mappings.1_21_1.layered+hash.40359-v2.main.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.1/loom.mappings.1_21_1.layered+hash.40359-v2/mappings.tiny" />
+      <module name="hack_client_on_neoforge.common.test" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/common/build/classes/java/test/test-hack_client_on_neoforge-common-common-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/common/build/loom-cache/mixin-map-loom.mappings.1_21_1.layered+hash.40359-v2.test.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.1/loom.mappings.1_21_1.layered+hash.40359-v2/mappings.tiny" />
+    </option>
+  </component>
+</project>

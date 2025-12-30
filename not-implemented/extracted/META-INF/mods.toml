@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="Not specified"
+
+[[mods]]
+modId="hack_client_mod"
+version="1.0.2"
+displayName="My Hack Client Mod"
+displayURL="https://youtube.com/channel/UCp1744QlVdG-UJegGb-kxoQ?si=qOzey6A4f8AiDfVg"
+credits="This mod is server-side. It will not work on other servers."
+authors="Kimohpang"
+
+# Start of user code block mod configuration
+# End of user code block mod configuration
+
+[[dependencies.hack_client_mod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1]"
+    ordering="AFTER"
+    side="BOTH"
+
+
+
+
+# Start of user code block dependencies configuration
+# End of user code block dependencies configuration
