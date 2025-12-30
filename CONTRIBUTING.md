@@ -1,4 +1,4 @@
-Thank you for your interest in contributing to Hack Client for 1.21.1 (NeoForge)! ✅
+Thank you for your interest in contributing to Hack Client for (NeoForge)! ✅
 
 This guide explains how the project is organized, how to set up a development environment, and what we expect from contributions.
 
