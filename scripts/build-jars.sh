@@ -13,5 +13,5 @@ echo "=============================="
 echo " NeoForge JAR built!"
 echo "=============================="
 
-mv neoforge/build/libs/neoforge-1.1.1.jar neoforge/build/libs/HackClient-1.21.1.jar
+mv neoforge/build/libs/neoforge-1.0.0.jar neoforge/build/libs/HackClient-1.21.1.jar
 ls neoforge/build/libs
