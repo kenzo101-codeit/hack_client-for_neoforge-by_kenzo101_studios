@@ -5,7 +5,7 @@ license = "MIT"
 
 [[mods]]
 modId = "wurst_client_on_neoforge"
-version = "${version}"
+version = "1.0.0-FIXED"
 displayName = "A Hack Client on NeoForge"
 authors = "kenzo101-codeit (GitHub)/Kenzo101 Studios(Reddit)"
 description = '''
@@ -16,9 +16,9 @@ logoFile = "java_2025.png"
 [[dependencies.wurst_client_on_neoforge]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.1,)"
+versionRange = "[21.1,21.2)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
 [[dependencies.wurst_client_on_neoforge]]
 modId = "minecraft"
