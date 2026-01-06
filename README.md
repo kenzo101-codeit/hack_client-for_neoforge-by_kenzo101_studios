@@ -8,17 +8,17 @@ A Wurst-like hack client for Minecraft 1.21.1 with a NeoForge target.
 
 ## Quick start
 
-- Build and copy the artifact into the NeoForge run mods folder:
-  - ./scripts/build-install-neoforge.sh
+- Build AND Locate .JAR files for NeoForge:
+  - `chmod +x ./scripts/build-jars.sh && ./scripts/build-jars.sh`
 - Run NeoForge client for development:
-  - ./gradlew :neoforge:runClient --debug
+  - `./gradlew :neoforge:runClient --debug`
 
 ## Development / Quick-start
 
 If you want to contribute or run the project locally, see `CONTRIBUTING.md` for a full guide. Quick commands:
 
 - Build: `./gradlew build --no-daemon`
-- Build & install for NeoForge: `./scripts/build-install-neoforge.sh`
+- Build AND Locate .JAR files for NeoForge: `chmod +x ./scripts/build-jars.sh && ./scripts/build-jars.sh`
 - Run NeoForge client for testing: `./gradlew :neoforge:runClient --debug`
 
 ## Features
@@ -35,3 +35,7 @@ Contributions welcome — please see `CONTRIBUTING.md` for contribution guidelin
 MIT — see `LICENSE` for details.
 
 ### PS: Dont mind some directories or files be mentioning Wurst Client.  it was because the original maybe COPYRIGHTED project was to port Wurst Client to neoforge. but i decided to create my own hack client with VS CODE!
+
+## OTHER PROJECT!
+Check out my ElytraMace Project as well!
+### ![Static Badge](https://img.shields.io/badge/My%20ElytraMace%20Project%20Based%20On%20johsar's%20Mod%20On%20Modrinth-blue?style=flat&logo=https%3A%2F%2Fbr.vexels.com%2Flogos%2Flink%2F&link=https%3A%2F%2Fgithub.com%2Fkenzo101-codeit%2FElytraMace-MOD-ORIGINAL_IDEA_BY_johsar_ON_MODRINTH-%2F)
