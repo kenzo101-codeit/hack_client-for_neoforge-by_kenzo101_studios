@@ -8,9 +8,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Entity.class)
+@Mixin(value = Entity.class, remap = false)
 public abstract class SafeWalkMixin {
-    @Inject(method = "isSteppingCarefully", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "isSteppingCarefully", at = @At("HEAD"), cancellable = true)
     private void onIsSteppingCarefully(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof Player) {
             if (SafeWalk.isEnabled()) {

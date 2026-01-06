@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Minecraft.class)
+@Mixin(value = Minecraft.class, remap = false)
 public class ClientTickMixin {
     private static boolean prevTogglePressed = false;
     private static boolean prevMenuPressed = false;
@@ -28,6 +28,8 @@ public class ClientTickMixin {
     private static boolean prevTracersPressed = false;
     private static boolean prevAndromedaPressed = false;
     private static boolean prevSafeWalkPressed = false;
+    private static boolean prevGodModePressed = false;
+    private static final boolean DEBUG_KEYS = false;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void onTick(CallbackInfo ci) {
@@ -36,12 +38,22 @@ public class ClientTickMixin {
 
         // periodic trace to help detect missing key events (every ~20 ticks)
         traceCounter++;
-        if (traceCounter % 20 == 0) {
+        if (DEBUG_KEYS && traceCounter % 20 == 0) {
             long win = mc.getWindow().getWindow();
             int rc = org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
-            boolean glfwRc = org.lwjgl.glfw.GLFW.glfwGetKey(win, rc) == org.lwjgl.glfw.GLFW.GLFW_PRESS;
-            boolean icRc = com.mojang.blaze3d.platform.InputConstants.isKeyDown(win, rc);
-            System.out.println("[KEYTRACE] RCTRL GLFW=" + glfwRc + " IC=" + icRc + " bind=" + com.wurstclient_v7.input.KeybindManager.getLabel("open_menu"));
+
+            boolean glfwRc =
+                    org.lwjgl.glfw.GLFW.glfwGetKey(win, rc)
+                            == org.lwjgl.glfw.GLFW.GLFW_PRESS;
+
+            boolean icRc =
+                    com.mojang.blaze3d.platform.InputConstants.isKeyDown(win, rc);
+
+            System.out.println(
+                    "[KEYTRACE] RCTRL GLFW=" + glfwRc +
+                            " IC=" + icRc +
+                            " bind=" + KeybindManager.getLabel("open_menu")
+            );
         }
         long window = mc.getWindow().getWindow();
         boolean pressed = KeybindManager.isPressed(window, "kill_aura_toggle");
@@ -164,6 +176,15 @@ public class ClientTickMixin {
         }
         prevSafeWalkPressed = swPressed;
 
+        // GodMode toggle key
+        boolean godPressed = KeybindManager.isPressed(window, "godmode_toggle");
+        if (godPressed && !prevGodModePressed) {
+            com.wurstclient_v7.feature.GodMode.toggle();
+            // Optional: Print to console for debugging
+            System.out.println("GodMode toggled: " + (com.wurstclient_v7.feature.GodMode.isEnabled() ? "ON" : "OFF"));
+        }
+        prevGodModePressed = godPressed;
+
         // Mouse left click handling (for autoattack)
         boolean leftPressed = InputConstants.isKeyDown(window, org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT);
         if (leftPressed && !prevLeftPressed) {
@@ -173,18 +194,13 @@ public class ClientTickMixin {
 
         // SafeWalk Execution Logic
         if (com.wurstclient_v7.feature.SafeWalk.isEnabled()) {
-            // This checks if you are on the ground.
-            // We usually only want to force-sneak if we are on the ground so we don't mess up flying/falling.
             if (mc.player != null && mc.player.onGround()) {
-                // Option A: The standard way to force a keybind in Minecraft
                 mc.options.keyShift.setDown(true);
             }
-        }
-
-        else if (prevSafeWalkPressed) {
-            // This ensures that when you toggle it OFF, it releases the key
+        } else {
             mc.options.keyShift.setDown(false);
         }
+
 
         // Call feature tick handler
         KillAura.onClientTick();

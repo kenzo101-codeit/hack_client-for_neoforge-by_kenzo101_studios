@@ -12,13 +12,21 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LevelRenderer.class)
+@Mixin(value = LevelRenderer.class, remap = false)
 public class WorldRendererMixin {
 
     @Inject(method = "renderLevel", at = @At("TAIL"))
-    private void onRenderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, org.joml.Matrix4f projectionMatrix, org.joml.Matrix4f modelViewMatrix, CallbackInfo ci) {
+    private void onRenderLevel(
+            DeltaTracker deltaTracker,
+            boolean renderBlockOutline,
+            Camera camera,
+            GameRenderer gameRenderer,
+            LightTexture lightTexture,
+            Matrix4f projectionMatrix,
+            Matrix4f modelViewMatrix,
+            CallbackInfo ci
+    ) {
         float partialTicks = deltaTracker.getGameTimeDeltaPartialTick(false);
-
         Tracers.render(modelViewMatrix, partialTicks);
     }
 }

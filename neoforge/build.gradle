@@ -61,6 +61,11 @@ tasks.withType(JavaCompile).configureEach {
     it.options.release = 21
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.fork = true
+    options.forkOptions.jvmArgs += "-Dmixin.env.disableRefMap=true"
+}
+
 // Configure Maven publishing.
 publishing {
     publications {

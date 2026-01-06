@@ -3,6 +3,7 @@
   "package": "com.wurstclient_v7.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
+  "refmap": "neoforge.refmap.json",
   "client": [
   ],
   "mixins": [

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Minecraft.class)
+@Mixin(value = Minecraft.class, remap = false)
 public class ClientTickMixin {
     private static boolean prevTogglePressed = false;
     private static boolean prevMenuPressed = false;
@@ -31,7 +31,7 @@ public class ClientTickMixin {
     private static boolean prevGodModePressed = false;
     private static final boolean DEBUG_KEYS = false;
 
-    @Inject(method = "tick()v", at = @At("TAIL"))
+    @Inject(method = "tick", at = @At("TAIL"))
     private void onTick(CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
         if (mc == null) return;

@@ -34,7 +34,7 @@ public final class ConfigManager {
         load();
     }
 
-    private NeoForgeConfigManager() { }
+    private ConfigManager() { }
 
     public static void load() {
         if (!CONFIG_FILE.exists()) return;

@@ -1,4 +1,4 @@
-package com.wurstclient_v7.mixin; // Must be at the very top!
+package com.wurstclient_v7.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -8,9 +8,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.client.gui.Font;
 
-@Mixin(Gui.class)
+@Mixin(value = Gui.class, remap = false)
 public class InGameHudMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
@@ -20,19 +19,17 @@ public class InGameHudMixin {
 
         int x = 5;
         int y = 5;
-        int color = 0xFF00FF00; // Green for enabled modules
+        int color = 0xFF00FF00;
 
-        // Draw Client Watermark
+        // Draw Watermark
         guiGraphics.drawString(mc.font, "My Hack Client For 1.21.1 NeoForge v1.0", x, y, 0xFFFFFFFF, true);
         y += 12;
 
-        // The list of modules from your file
         String[] modules = {
                 "AndromedaBridge", "AutoAttack", "ESP", "Flight",
                 "FullBright", "Jetpack", "KillAura",
                 "NoFall", "Nuker", "SpeedHack", "Spider", "Tracers", "XRay", "SafeWalk", "GodMode"
-        }
-    }
+        };
 
         for (String mod : modules) {
             if (isModEnabled(mod)) {
