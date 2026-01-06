@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 public final class NeoForgeConfigManager {
     // Standard Minecraft config directory
     private static final File CONFIG_DIR = new File(Minecraft.getInstance().gameDirectory, "config");
-    private static final File CONFIG_FILE = new File(CONFIG_DIR, "wurst-config.properties");
+    private static final File CONFIG_FILE = new File(CONFIG_DIR, "hack-client-config.properties");
     private static final Properties PROPS = new Properties();
 
     static {
@@ -48,7 +48,7 @@ public final class NeoForgeConfigManager {
     public static void save() {
         if (!CONFIG_DIR.exists()) CONFIG_DIR.mkdirs();
         try (FileOutputStream out = new FileOutputStream(CONFIG_FILE)) {
-            PROPS.store(out, "Wurst Client v7 Config");
+            PROPS.store(out, "Hack Client 1.21.1 Config");
         } catch (IOException e) {
             System.err.println("Failed to save config: " + e.getMessage());
         }

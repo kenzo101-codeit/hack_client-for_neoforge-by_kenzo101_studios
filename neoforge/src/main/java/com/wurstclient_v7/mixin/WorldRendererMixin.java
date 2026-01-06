@@ -1,34 +1,61 @@
 package com.wurstclient_v7.mixin;
 
-import com.wurstclient_v7.feature.Tracers;
-import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
-import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LevelRenderer.class)
-public class WorldRendererMixin {
+@Mixin(Gui.class)
+public class InGameHudMixin {
 
-    @Inject(method = "renderLevel", at = @At("TAIL"))
-    private void onRenderLevel(
-            DeltaTracker deltaTracker,
-            boolean renderBlockOutline,
-            Camera camera,
-            GameRenderer gameRenderer,
-            LightTexture lightTexture,
-            Matrix4f projectionMatrix,
-            Matrix4f poseMatrix,
-            CallbackInfo ci
-    ) {
-        float partialTicks =
-                deltaTracker.getGameTimeDeltaPartialTick(false);
+    @Inject(method = "render", at = @At("TAIL"), remap = false)
+    private void onRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.options.hideGui || mc.player == null) return;
 
-        Tracers.render(poseMatrix, partialTicks);
+        int x = 5;
+        int y = 5;
+        int color = 0xFF00FF00;
+
+        // Draw Watermark
+        guiGraphics.drawString(mc.font, "My Hack Client For 1.21.1 NeoForge v1.0", x, y, 0xFFFFFFFF, true);
+        y += 12;
+
+        String[] modules = {
+                "AndromedaBridge", "AutoAttack", "ESP", "Flight",
+                "FullBright", "Jetpack", "KillAura",
+                "NoFall", "Nuker", "SpeedHack", "Spider", "Tracers", "XRay", "SafeWalk", "GodMode"
+        };
+
+        for (String mod : modules) {
+            if (isModEnabled(mod)) {
+                guiGraphics.drawString(mc.font, "[+] " + mod, x, y, color, true);
+                y += 10;
+            }
+        }
+    }
+    private boolean isModEnabled(String name) {
+        return switch (name) {
+            case "AndromedaBridge" -> com.wurstclient_v7.feature.AndromedaBridge.isEnabled();
+            case "AutoAttack" -> com.wurstclient_v7.feature.AutoAttack.isEnabled();
+            case "ESP" -> com.wurstclient_v7.feature.ESP.isEnabled();
+            case "Flight" -> com.wurstclient_v7.feature.Flight.isEnabled();
+            case "FullBright" -> com.wurstclient_v7.feature.FullBright.isEnabled();
+            case "Jetpack" -> com.wurstclient_v7.feature.Jetpack.isEnabled();
+            case "KillAura" -> com.wurstclient_v7.feature.KillAura.isEnabled();
+            case "NoFall" -> com.wurstclient_v7.feature.NoFall.isEnabled();
+            case "Nuker" -> com.wurstclient_v7.feature.Nuker.isEnabled();
+            case "SpeedHack" -> com.wurstclient_v7.feature.SpeedHack.isEnabled();
+            case "Spider" -> com.wurstclient_v7.feature.Spider.isEnabled();
+            case "Tracers" -> com.wurstclient_v7.feature.Tracers.isEnabled();
+            case "XRay" -> com.wurstclient_v7.feature.XRay.isEnabled();
+            case "SafeWalk" -> com.wurstclient_v7.feature.SafeWalk.isEnabled();
+            case "GodMode" -> com.wurstclient_v7.feature.GodMode.isEnabled();
+            default -> false;
+        };
     }
 }

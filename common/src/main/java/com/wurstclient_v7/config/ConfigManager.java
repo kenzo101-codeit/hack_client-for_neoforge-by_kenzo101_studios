@@ -10,12 +10,13 @@ import net.minecraft.client.Minecraft;
 public final class ConfigManager {
     // Standard Minecraft config directory
     private static final File CONFIG_DIR = new File(Minecraft.getInstance().gameDirectory, "config");
-    private static final File CONFIG_FILE = new File(CONFIG_DIR, "wurst-config.properties");
+    private static final File CONFIG_FILE = new File(CONFIG_DIR, "hack-client-config.properties");
     private static final Properties PROPS = new Properties();
 
     static {
         // Set your defaults here
         PROPS.setProperty("speed.multiplier", "1.5");
+        PROPS.setProperty("speed.enabled", "false");
         PROPS.setProperty("spider.enabled", "false");
         PROPS.setProperty("tracers.enabled", "false");
         PROPS.setProperty("safewalk.enabled", "false");
@@ -29,10 +30,11 @@ public final class ConfigManager {
         PROPS.setProperty("andromeda.enabled", "false");
         PROPS.setProperty("xray.enabled", "false");
         PROPS.setProperty("autoattack.enabled", "false");
+        PROPS.setProperty("godmode.enabled", "false");
         load();
     }
 
-    private ConfigManager() { }
+    private NeoForgeConfigManager() { }
 
     public static void load() {
         if (!CONFIG_FILE.exists()) return;
@@ -46,7 +48,7 @@ public final class ConfigManager {
     public static void save() {
         if (!CONFIG_DIR.exists()) CONFIG_DIR.mkdirs();
         try (FileOutputStream out = new FileOutputStream(CONFIG_FILE)) {
-            PROPS.store(out, "Wurst Client v7 Config");
+            PROPS.store(out, "Hack Client 1.21.1 Config");
         } catch (IOException e) {
             System.err.println("Failed to save config: " + e.getMessage());
         }

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EntityMixin {
 
     // Fix 1: Targeting the exact method for SafeWalk
-    @Inject(method = "isSteppingCarefully", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isSteppingCarefully", at = @At("HEAD"), cancellable = true, remap = true)
     private void onIsSteppingCarefully(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof Player && SafeWalk.isEnabled()) {
             cir.setReturnValue(true);
@@ -22,7 +22,7 @@ public abstract class EntityMixin {
 
     // Fix 2: In 1.20.4, 'isGlowing' is often mapped as 'isCurrentlyGlowing'
     // or requires a more specific target. Try this version:
-    @Inject(method = "isCurrentlyGlowing", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isCurrentlyGlowing", at = @At("HEAD"), cancellable = true, remap = false)
     private void onIsGlowing(CallbackInfoReturnable<Boolean> cir) {
         if (ESP.isEnabled()) {
             // Check if 'this' is NOT the local player (so you don't glow yourself)

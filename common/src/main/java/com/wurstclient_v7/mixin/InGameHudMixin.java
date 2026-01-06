@@ -14,7 +14,7 @@ import net.minecraft.client.gui.Font;
 public class InGameHudMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void onRender(GuiGraphics guiGraphics, DeltaTracker tracker, CallbackInfo ci) {
+    private void onRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.hideGui || mc.player == null) return;
 
@@ -23,15 +23,16 @@ public class InGameHudMixin {
         int color = 0xFF00FF00; // Green for enabled modules
 
         // Draw Client Watermark
-        guiGraphics.drawString(mc.font, "MyHackClient v1.0", x, y, 0xFFFFFFFF, true);
+        guiGraphics.drawString(mc.font, "My Hack Client For 1.21.1 NeoForge v1.0", x, y, 0xFFFFFFFF, true);
         y += 12;
 
         // The list of modules from your file
         String[] modules = {
                 "AndromedaBridge", "AutoAttack", "ESP", "Flight",
-                "FullBright", "Jetpack", "KillAura", "MobVision",
-                "NoFall", "Nuker", "SpeedHack", "Spider", "Tracers", "XRay", "SafeWalk"
-        };
+                "FullBright", "Jetpack", "KillAura",
+                "NoFall", "Nuker", "SpeedHack", "Spider", "Tracers", "XRay", "SafeWalk", "GodMode"
+        }
+    }
 
         for (String mod : modules) {
             if (isModEnabled(mod)) {
@@ -57,6 +58,7 @@ public class InGameHudMixin {
             case "Tracers" -> com.wurstclient_v7.feature.Tracers.isEnabled();
             case "XRay" -> com.wurstclient_v7.feature.XRay.isEnabled();
             case "SafeWalk" -> com.wurstclient_v7.feature.SafeWalk.isEnabled();
+            case "GodMode" -> com.wurstclient_v7.feature.GodMode.isEnabled();
             default -> false;
         };
     }
