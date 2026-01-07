@@ -1,3 +1,4 @@
+
 package com.wurstclient_v7.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,14 +16,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> {
 
+	// Alternative: Try without the full signature, let Mixin figure it out
 	@Inject(
-			method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+			method = "render",
 			at = @At("TAIL")
 	)
-	private void addHealthTag(T entity, float yaw, float partialTicks,
-	                          PoseStack poseStack, MultiBufferSource buffer, int packedLight,
-	                          CallbackInfo ci) {
-		if (!com.wurstclient_v7.feature.HealthTagsMain.isEnabled()) return;
+	private void onRender(T entity, float yaw, float partialTicks, PoseStack poseStack,
+	                      MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
+		if (!com.wurstclient_v7.HealthTagsMain.isEnabled()) return;
 
 		float health = entity.getHealth();
 		float max = entity.getMaxHealth();
@@ -30,13 +31,18 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
 		poseStack.pushPose();
 		poseStack.translate(0.0, entity.getBbHeight() + 0.5, 0.0);
-		poseStack.scale(0.01f, 0.01f, 0.01f);
+		poseStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
+		poseStack.scale(-0.025f, -0.025f, 0.025f);
 
 		Font font = Minecraft.getInstance().font;
 		int width = font.width(text);
+
+		// Use proper matrix positioning
+		poseStack.translate(0, 0, 0.5);
+
 		font.drawInBatch(text, -width / 2f, 0, 0xFFFFFF, false,
 				poseStack.last().pose(), buffer,
-				Font.DisplayMode.NORMAL, 0, packedLight);
+				Font.DisplayMode.SEE_THROUGH, 0, packedLight);
 
 		poseStack.popPose();
 	}

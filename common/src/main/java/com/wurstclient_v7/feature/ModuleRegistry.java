@@ -1,5 +1,6 @@
 package com.wurstclient_v7.feature;
 
+import com.wurstclient_v7.feature.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
