@@ -1,5 +1,6 @@
 package com.wurstclient_v7.mixin;
 
+import com.wurstclient_v7.feature.HealthTagsMain;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
