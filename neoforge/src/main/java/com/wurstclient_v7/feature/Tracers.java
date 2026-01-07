@@ -25,14 +25,14 @@ public final class Tracers {
         return enabled;
     }
 
-    public static void render(Matrix4f matrix, float partialTicks) {
+    public static void render(Matrix4f matrix) {
         if (!enabled) return;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
 
         Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
-        Vec3 start = mc.player.getEyePosition(partialTicks).subtract(camPos);
+        Vec3 start = mc.player.getEyePosition().subtract(camPos);
 
         // IMPORTANT: This allows the lines to be seen through walls
         RenderSystem.disableDepthTest();
@@ -50,7 +50,7 @@ public final class Tracers {
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (!(entity instanceof Player) || entity == mc.player) continue;
 
-            Vec3 end = entity.getPosition(partialTicks)
+            Vec3 end = entity.getPosition(1.0F)
                     .add(0, entity.getBbHeight() / 2.0, 0)
                     .subtract(camPos);
 

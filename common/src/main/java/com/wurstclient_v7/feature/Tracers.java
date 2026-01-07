@@ -1,15 +1,15 @@
 package com.wurstclient_v7.feature;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
-import net.minecraft.client.renderer.MultiBufferSource;
 
 
 public final class Tracers {
@@ -25,14 +25,14 @@ public final class Tracers {
         return enabled;
     }
 
-    public static void render(PoseStack poseStack, float partialTicks) {
+    public static void render(Matrix4f matrix) {
         if (!enabled) return;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
 
         Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
-        Vec3 start = mc.player.getEyePosition(partialTicks).subtract(camPos);
+        Vec3 start = mc.player.getEyePosition().subtract(camPos);
 
         // IMPORTANT: This allows the lines to be seen through walls
         RenderSystem.disableDepthTest();
@@ -46,12 +46,11 @@ public final class Tracers {
 
         // We use a basic LineStrip or Lines format
         VertexConsumer consumer = buffers.getBuffer(RenderType.lines());
-        Matrix4f matrix = poseStack.last().pose();
 
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (!(entity instanceof Player) || entity == mc.player) continue;
 
-            Vec3 end = entity.getPosition(partialTicks)
+            Vec3 end = entity.getPosition(1.0F)
                     .add(0, entity.getBbHeight() / 2.0, 0)
                     .subtract(camPos);
 

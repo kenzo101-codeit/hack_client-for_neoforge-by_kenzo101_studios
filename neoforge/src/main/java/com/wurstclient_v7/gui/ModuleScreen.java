@@ -1,20 +1,7 @@
 package com.wurstclient_v7.gui;
 
 import com.wurstclient_v7.config.NeoForgeConfigManager;
-import com.wurstclient_v7.feature.AndromedaBridge;
-import com.wurstclient_v7.feature.AutoAttack;
-import com.wurstclient_v7.feature.ESP;
-import com.wurstclient_v7.feature.Flight;
-import com.wurstclient_v7.feature.FullBright;
-import com.wurstclient_v7.feature.Jetpack;
-import com.wurstclient_v7.feature.KillAura;
-import com.wurstclient_v7.feature.NoFall;
-import com.wurstclient_v7.feature.Nuker;
-import com.wurstclient_v7.feature.SpeedHack;
-import com.wurstclient_v7.feature.Spider;
-import com.wurstclient_v7.feature.Tracers;
-import com.wurstclient_v7.feature.XRay;
-import com.wurstclient_v7.feature.GodMode;
+import com.wurstclient_v7.feature.*;
 import com.wurstclient_v7.input.KeybindManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -85,6 +72,12 @@ public class ModuleScreen extends Screen {
         lineY += 12;
         // Now render GodMode on the next line
         renderModule(gfx, x, lineY, "godmode (" + GodMode.getTarget() + ")", GodMode.isEnabled(), "godmode_toggle");
+        lineY += 12;
+        renderModule(gfx, x, lineY, "freecam", Freecam.isEnabled(), "freecam_toggle");
+        lineY += 12;
+        renderModule(gfx, x, lineY, "lsd", LSD.isEnabled(), "lsd_toggle");
+        lineY += 12;
+        renderModule(gfx, x, lineY, "jesus", Jesus.isEnabled(), "jesus_toggle");
 
         super.render(gfx, mouseX, mouseY, partialTick);
     }

@@ -31,6 +31,10 @@ public final class NeoForgeConfigManager {
         PROPS.setProperty("xray.enabled", "false");
         PROPS.setProperty("autoattack.enabled", "false");
         PROPS.setProperty("godmode.enabled", "false");
+        PROPS.setProperty("glide.enabled", "false");
+        PROPS.setProperty("freecam.enabled", "false");
+        PROPS.setProperty("lsd.enabled", "false");
+        PROPS.setProperty("jesus.enabled", "false");
         load();
     }
 

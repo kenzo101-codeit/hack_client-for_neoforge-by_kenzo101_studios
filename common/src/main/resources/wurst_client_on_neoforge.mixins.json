@@ -11,7 +11,8 @@
     "EntityMixin",
     "InGameHudMixin",
     "SafeWalkMixin",
-    "XRayMixin"
+    "XRayMixin",
+    "EntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

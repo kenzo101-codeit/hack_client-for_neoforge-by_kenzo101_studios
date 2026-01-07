@@ -31,6 +31,7 @@ public final class ConfigManager {
         PROPS.setProperty("xray.enabled", "false");
         PROPS.setProperty("autoattack.enabled", "false");
         PROPS.setProperty("godmode.enabled", "false");
+        PROPS.setProperty("glide.enabled", "false");
         load();
     }
 

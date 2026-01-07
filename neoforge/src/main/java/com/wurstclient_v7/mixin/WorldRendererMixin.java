@@ -27,6 +27,6 @@ public class WorldRendererMixin {
             CallbackInfo ci
     ) {
         float partialTicks = deltaTracker.getGameTimeDeltaPartialTick(false);
-        Tracers.render(modelViewMatrix, partialTicks);
+        Tracers.render(modelViewMatrix);
     }
 }

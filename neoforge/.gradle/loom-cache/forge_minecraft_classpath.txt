@@ -1,6 +1,6 @@
-/home/kenzo101/.gradle/caches/fabric-loom/1.21.1/neoforge/21.1.215/client-extra.jar
+/home/kenzo101/.gradle/caches/fabric-loom/1.21.1/neoforge/21.1.217/client-extra.jar
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/4.0.42/46555dbfff14e9e052f1f693aed14d542a74e111/earlydisplay-4.0.42.jar
-/home/kenzo101/.gradle/caches/fabric-loom/forge/transformed-dependencies-v1/net/neoforged/fancymodloader/6cbb9cd9c530e9af67296fb0ed0977505971251c4adf3f7f9e5414bc02a2226f/loader/4.0.42/loader-4.0.42.jar
+/home/kenzo101/.gradle/caches/fabric-loom/forge/transformed-dependencies-v1/net/neoforged/fancymodloader/34573bf07d4e228ed25960c245aac6ebdc774142494334561a0d25ae7e8fae3d/loader/4.0.42/loader-4.0.42.jar
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/net.neoforged.accesstransformers/at-modlauncher/10.0.1/5aba50202aceead086bc09fbc2751c9f05cb4890/at-modlauncher-10.0.1.jar
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/net.neoforged/accesstransformers/10.0.1/fd83b5725f76eae9115e9355fa1c456a6a441400/accesstransformers-10.0.1.jar
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.5/5b2d33285ab5d1554e9798ad98c40d6ea3868bd5/bus-8.0.5.jar
@@ -94,5 +94,5 @@
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/daada81ceb5fc0c291fbfdd4433cb8d9423577f2/lwjgl-openal-3.3.3.jar
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/3037360cc4595079bea240af250b6d1a527e0905/lwjgl-openal-3.3.3-natives-linux.jar
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/org.lz4/lz4-java/1.8.0/4b986a99445e49ea5fbf5d149c4b63f6ed6c6780/lz4-java-1.8.0.jar
-/home/kenzo101/.gradle/caches/fabric-loom/minecraftMaven/net/minecraft/neoforge-21.1.215-minecraft-merged/1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215/neoforge-21.1.215-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.215.jar
+/home/kenzo101/.gradle/caches/fabric-loom/minecraftMaven/net/minecraft/neoforge-21.1.217-minecraft-merged/1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.217/neoforge-21.1.217-minecraft-merged-1.21.1-loom.mappings.1_21_1.layered+hash.40359-v2-neoforge-21.1.217.jar
 /home/kenzo101/.gradle/caches/modules-2/files-2.1/net.fabricmc/dev-launch-injector/0.2.1+build.8/da8bef7e6e2f952da707f282bdb46882a0fce5e3/dev-launch-injector-0.2.1+build.8.jar

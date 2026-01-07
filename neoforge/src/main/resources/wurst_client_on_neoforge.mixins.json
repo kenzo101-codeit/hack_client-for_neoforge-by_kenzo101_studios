@@ -12,7 +12,8 @@
     "InGameHudMixin",
     "SafeWalkMixin",
     "WorldRendererMixin",
-    "XRayMixin"
+    "XRayMixin",
+    "EntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
