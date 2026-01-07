@@ -1,6 +1,6 @@
 package com.wurstclient_v7.client;
 
-import com.wurstclient_v7.net.HealthTagPayloads;
+import com.wurstclient_v7.net.HealthTagsPayloads;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -15,7 +15,7 @@ public final class HealthTagClientCache {
         public Entry(float health, float max) { this.health = health; this.max = max; }
     }
 
-    public static final IPayloadHandler<HealthTagPayloads.HealthUpdate> CLIENT_HANDLER = (msg, ctx) -> {
+    public static final IPayloadHandler<HealthTagsPayloads.HealthUpdate> CLIENT_HANDLER = (msg, ctx) -> {
         // Run on client thread
         Minecraft.getInstance().execute(() -> {
             CACHE.put(msg.entityId, new Entry(msg.health, msg.maxHealth));

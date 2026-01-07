@@ -1,6 +1,6 @@
 package com.wurstclient_v7.server;
 
-import com.wurstclient_v7.net.HealthTagPayloads;
+import com.wurstclient_v7.net.HealthTagsPayloads;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,7 +10,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 @EventBusSubscriber(modid = "wurst_client_on_neoforge")
-public final class HealthTagBroadcaster {
+public final class HealthTagsBroadcaster {
 
 	@SubscribeEvent
 	public static void onServerTick(ServerTickEvent.Post event) {

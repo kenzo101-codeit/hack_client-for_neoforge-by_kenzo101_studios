@@ -8,8 +8,8 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-public final class HealthTagPayloads {
-    public static final ResourceLocation CHANNEL = new ResourceLocation("hack_client:health_tag");
+public final class HealthTagsPayloads {
+    public static final ResourceLocation CHANNEL = new ResourceLocation("wurst_client_on_neoofrge:health_tag");
 
     public static final class HealthUpdate implements CustomPacketPayload {
         public static final Type<HealthUpdate> TYPE = new Type<>(CHANNEL);
@@ -25,14 +25,14 @@ public final class HealthTagPayloads {
         }
 
         public static final StreamCodec<FriendlyByteBuf, HealthUpdate> CODEC =
-            StreamCodec.of(
-                (buf, msg) -> {
-                    buf.writeVarInt(msg.entityId);
-                    buf.writeFloat(msg.health);
-                    buf.writeFloat(msg.maxHealth);
-                },
-                buf -> new HealthUpdate(buf.readVarInt(), buf.readFloat(), buf.readFloat())
-            );
+                StreamCodec.of(
+                        (buf, msg) -> {
+                            buf.writeVarInt(msg.entityId);
+                            buf.writeFloat(msg.health);
+                            buf.writeFloat(msg.maxHealth);
+                        },
+                        buf -> new HealthUpdate(buf.readVarInt(), buf.readFloat(), buf.readFloat())
+                );
 
         @Override
         public Type<? extends CustomPacketPayload> type() {
@@ -41,7 +41,7 @@ public final class HealthTagPayloads {
     }
 
     public static void register(RegisterPayloadHandlersEvent event, IPayloadHandler<HealthUpdate> clientHandler) {
-        PayloadRegistrar registrar = event.registrar("hack_client");
+        PayloadRegistrar registrar = event.registrar("wurst_client_on_neofprge");
         registrar.playToClient(HealthUpdate.TYPE, HealthUpdate.CODEC, clientHandler);
     }
 }
