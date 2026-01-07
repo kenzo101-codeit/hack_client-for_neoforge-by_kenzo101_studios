@@ -31,7 +31,7 @@ public final class ModuleRegistry {
 		MODULES.put("Glide", Glide::isEnabled);
 		MODULES.put("AirPlace", AirPlace::isEnabled);
 		MODULES.put("BoatFly", BoatFly::isEnabled);
-		MODULES.put("HealthTags", HealthTagsMain::isEnabled);
+		MODULES.put("HealthTagsMain", HealthTagsMain::isEnabled);
 	}
 
 	public interface ModuleToggle {
