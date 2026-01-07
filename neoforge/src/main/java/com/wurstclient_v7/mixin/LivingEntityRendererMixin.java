@@ -1,6 +1,5 @@
 package com.wurstclient_v7.mixin;
 
-import com.wurstclient_v7.feature.HealthTagsMain;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -23,7 +22,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 	private void addHealthTag(T entity, float yaw, float partialTicks,
 	                          PoseStack poseStack, MultiBufferSource buffer, int packedLight,
 	                          CallbackInfo ci) {
-		if (!com.wurstclient_v7.feature.HealthTagsMain.isEnabled()) return;
+		// Only show if your feature is enabled
+		if (!com.wurstclient_v7.HealthTagsMain.isEnabled()) return;
 
 		float health = entity.getHealth();
 		float max = entity.getMaxHealth();

@@ -1,37 +1,35 @@
-package com.wurstclient_v7.feature;
+package com.wurstclient_v7;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.wurstclient_v7.config.NeoForgeConfigManager;
+import com.wurstclient_v7.client.HealthTagClientCache;
+import com.wurstclient_v7.net.HealthTagsPayloads;
+import com.wurstclient_v7.server.HealthTagsBroadcaster;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
-public final class ModuleRegistry {
-	public static final Map<String, ModuleToggle> MODULES = new LinkedHashMap<>();
+@Mod(HealthTagsMain.MODID)
+public final class HealthTagsMain {
+	public static final String MODID = "wurst_client_on_neoforge";
 
-	static {
-		MODULES.put("KillAura", KillAura::isEnabled);
-		MODULES.put("AutoAttack", AutoAttack::isEnabled);
-		MODULES.put("SpeedHack", SpeedHack::isEnabled);
-		MODULES.put("FullBright", FullBright::isEnabled);
-		MODULES.put("Flight", Flight::isEnabled);
-		MODULES.put("NoFall", NoFall::isEnabled);
-		MODULES.put("XRay", XRay::isEnabled);
-		MODULES.put("Jetpack", Jetpack::isEnabled);
-		MODULES.put("Nuker", Nuker::isEnabled);
-		MODULES.put("Spider", Spider::isEnabled);
-		MODULES.put("ESP", ESP::isEnabled);
-		MODULES.put("Tracers", Tracers::isEnabled);
-		MODULES.put("AndromedaBridge", AndromedaBridge::isEnabled);
-		MODULES.put("SafeWalk", SafeWalk::isEnabled);
-		MODULES.put("GodMode", GodMode::isEnabled);
-		MODULES.put("Freecam", Freecam::isEnabled);
-		MODULES.put("LSD", LsdHack::isEnabled);
-		MODULES.put("Jesus", JesusHack::isEnabled);
-		MODULES.put("Glide", Glide::isEnabled);
-		MODULES.put("AirPlace", AirPlace::isEnabled);
-		MODULES.put("BoatFly", BoatFly::isEnabled);
-		MODULES.put("HealthTags", HealthTagsMain::isEnabled);
+	private static boolean enabled = false;
+
+	public HealthTagsMain(IEventBus modEventBus) {
+		modEventBus.addListener(this::registerNetworking);
+		HealthTagsBroadcaster.init();
 	}
 
-	public interface ModuleToggle {
-		boolean isEnabled();
+	private void registerNetworking(RegisterPayloadHandlersEvent event) {
+		HealthTagsPayloads.register(event, HealthTagClientCache.CLIENT_HANDLER);
+	}
+
+	public static void toggle() {
+		enabled = !enabled;
+		NeoForgeConfigManager.setBoolean("healthtags.enabled", enabled);
+	}
+
+	public static boolean isEnabled() {
+		return enabled;
 	}
 }

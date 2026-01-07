@@ -18,13 +18,14 @@ public final class HealthTagsBroadcaster {
 		if (server == null) return;
 
 		for (ServerLevel level : server.getAllLevels()) {
-			for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class)) {
+			for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class, level.getWorldBorder().getBounds())) {
 				float health = living.getHealth();
 				float max = living.getMaxHealth();
 				int id = living.getId();
 
 				HealthTagsPayloads.HealthUpdate msg = new HealthTagsPayloads.HealthUpdate(id, health, max);
 				for (ServerPlayer player : level.players()) {
+					// Send to players near the entity (optional: distance check)
 					player.connection.send(msg);
 				}
 			}

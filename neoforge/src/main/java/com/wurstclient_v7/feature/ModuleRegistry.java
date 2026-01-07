@@ -1,5 +1,7 @@
 package com.wurstclient_v7.feature;
 
+import com.wurstclient_v7.HealthTagsMain;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,7 +30,7 @@ public final class ModuleRegistry {
 		MODULES.put("Glide", Glide::isEnabled);
 		MODULES.put("AirPlace", AirPlace::isEnabled);
 		MODULES.put("BoatFly", BoatFly::isEnabled);
-		MODULES.put("HealthTags", HealthTags::isEnabled);
+		MODULES.put("HealthTags", HealthTagsMain::isEnabled);
 	}
 
 	public interface ModuleToggle {
