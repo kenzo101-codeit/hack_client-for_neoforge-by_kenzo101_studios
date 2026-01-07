@@ -1,47 +1,40 @@
-package com.wurstclient_v7.net;
+package com.wurstclient_v7;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import com.wurstclient_v7.config.NeoForgeConfigManager;
+import com.wurstclient_v7.client.HealthTagClientCache;
+import com.wurstclient_v7.net.HealthTagsPayloads;
+import com.wurstclient_v7.server.HealthTagsBroadcaster;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.IPayloadHandler;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-public final class HealthTagsPayloads {
-	public static final ResourceLocation CHANNEL = ResourceLocation.fromNamespaceAndPath("wurst_client_on_neoofrge", "health_tag");
+@Mod(HealthTagsMain.MODID)
+public final class HealthTagsMain {
+	public static final String MODID = "wurst_client_on_neoforge";
 
-	public static final class HealthUpdate implements CustomPacketPayload {
-		public static final Type<HealthUpdate> TYPE = new Type<>(CHANNEL);
+	// Toggle state for the Click GUI
+	private static boolean enabled = false;
 
-		public final int entityId;
-		public final float health;
-		public final float maxHealth;
+	public HealthTagsMain(IEventBus modEventBus) {
+		// Register networking
+		modEventBus.addListener(this::registerNetworking);
 
-		public HealthUpdate(int entityId, float health, float maxHealth) {
-			this.entityId = entityId;
-			this.health = health;
-			this.maxHealth = maxHealth;
-		}
-
-		public static final StreamCodec<FriendlyByteBuf, HealthUpdate> CODEC =
-				StreamCodec.of(
-						(buf, msg) -> {
-							buf.writeVarInt(msg.entityId);
-							buf.writeFloat(msg.health);
-							buf.writeFloat(msg.maxHealth);
-						},
-						buf -> new HealthUpdate(buf.readVarInt(), buf.readFloat(), buf.readFloat())
-				);
-
-		@Override
-		public Type<? extends CustomPacketPayload> type() {
-			return TYPE;
-		}
+		// Register server broadcaster
+		HealthTagsBroadcaster.init();
 	}
 
-	public static void register(RegisterPayloadHandlersEvent event, IPayloadHandler<HealthUpdate> clientHandler) {
-		PayloadRegistrar registrar = event.registrar("wurst_client_on_neofprge");
-		registrar.playToClient(HealthUpdate.TYPE, HealthUpdate.CODEC, clientHandler);
+	private void registerNetworking(RegisterPayloadHandlersEvent event) {
+		HealthTagsPayloads.register(event, HealthTagClientCache.CLIENT_HANDLER);
+	}
+
+	// === Public API for Click GUI ===
+	public static void toggle() {
+		enabled = !enabled;
+		NeoForgeConfigManager.setBoolean("healthtags.enabled", enabled);
+	}
+
+	public static boolean isEnabled() {
+		return enabled;
 	}
 }
