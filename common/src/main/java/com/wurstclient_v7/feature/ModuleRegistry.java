@@ -23,12 +23,12 @@ public final class ModuleRegistry {
 		MODULES.put("SafeWalk", SafeWalk::isEnabled);
 		MODULES.put("GodMode", GodMode::isEnabled);
 		MODULES.put("Freecam", Freecam::isEnabled);
-		MODULES.put("LSD", LsdHack::isEnabled);
-		MODULES.put("Jesus", JesusHack::isEnabled);
+		MODULES.put("LSD", LsdHack::isEnabled);      // FIXED
+		MODULES.put("Jesus", JesusHack::isEnabled);  // FIXED
 		MODULES.put("Glide", Glide::isEnabled);
 		MODULES.put("AirPlace", AirPlace::isEnabled);
 		MODULES.put("BoatFly", BoatFly::isEnabled);
-		MODULES.put("HealthTags", HealthTagsMain::isEnabled);
+		MODULES.put("HealthTags", HealthTags::isEnabled);
 	}
 
 	public interface ModuleToggle {

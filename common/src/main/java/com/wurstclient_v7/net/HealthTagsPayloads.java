@@ -8,8 +8,8 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-public final class HealthTagPayloads {
-	public static final ResourceLocation CHANNEL = new ResourceLocation("wurst_client_on_neoofrge:health_tag");
+public final class HealthTagsPayloads {
+	public static final ResourceLocation CHANNEL = ResourceLocation.fromNamespaceAndPath("wurst_client_on_neoofrge", "health_tag");
 
 	public static final class HealthUpdate implements CustomPacketPayload {
 		public static final Type<HealthUpdate> TYPE = new Type<>(CHANNEL);

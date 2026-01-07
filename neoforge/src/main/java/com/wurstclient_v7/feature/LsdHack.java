@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 public final class LsdHack {
 	private static final Minecraft MC = Minecraft.getInstance();
 	private static final ResourceLocation LSD_SHADER =
-			new ResourceLocation("wurst_client_on_neoforge", "post_effect/lsd.json");
+			ResourceLocation.fromNamespaceAndPath("wurst_client_on_neoforge", "post_effect/lsd.json");
 
 	private static boolean enabled = false;
 
@@ -20,16 +20,13 @@ public final class LsdHack {
 		return enabled;
 	}
 
-	public void enable()
-	{
+	public void enable() {
 		if (enabled)
 			return;
 
-		// Must be in-game
 		if (MC.level == null || MC.player == null)
 			return;
 
-		// Remove existing shader if any
 		if (MC.gameRenderer.currentEffect() != null)
 			MC.gameRenderer.shutdownEffect();
 
@@ -37,8 +34,7 @@ public final class LsdHack {
 		enabled = true;
 	}
 
-	public void disable()
-	{
+	public void disable() {
 		if (!enabled)
 			return;
 

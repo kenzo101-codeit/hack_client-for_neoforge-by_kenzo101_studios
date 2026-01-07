@@ -14,10 +14,8 @@ public final class Freecam {
 	private static boolean enabled = false;
 
 	public static void toggle() {
-
 		enabled = !enabled;
 		NeoForgeConfigManager.setBoolean("freecam.enabled", enabled);
-
 	}
 
 	public static boolean isEnabled() {
@@ -42,7 +40,6 @@ public final class Freecam {
 			storedYaw = player.getYRot();
 			storedPitch = player.getXRot();
 		} else {
-			// restore player
 			player.setPos(storedPos.x, storedPos.y, storedPos.z);
 			player.setYRot(storedYaw);
 			player.setXRot(storedPitch);
@@ -58,16 +55,23 @@ public final class Freecam {
 		Player player = mc.player;
 		if (player == null) return;
 
-		// Freeze real player
 		player.setDeltaMovement(Vec3.ZERO);
 
-		// Camera movement
 		Vec3 camMove = Vec3.ZERO;
 
-		if (mc.options.keyUp.isDown()) camMove = camMove.add(0, SPEED, 0);
-		if (mc.options.keyDown.isDown()) camMove = camMove.add(0, -SPEED, 0);
-		if (mc.options.keyForward.isDown()) camMove = camMove.add(player.getLookAngle().scale(SPEED));
-		if (mc.options.keyBack.isDown()) camMove = camMove.add(player.getLookAngle().scale(-SPEED));
+		// Vertical movement
+		if (mc.options.keyJump.isDown()) camMove = camMove.add(0, SPEED, 0);
+		if (mc.options.keyShift.isDown()) camMove = camMove.add(0, -SPEED, 0);
+
+		// Horizontal movement
+		Vec3 look = player.getLookAngle();
+		Vec3 horizontalForward = new Vec3(look.x, 0, look.z).normalize();
+		Vec3 horizontalRight = horizontalForward.cross(new Vec3(0, 1, 0)).normalize();
+
+		if (mc.options.keyUp.isDown()) camMove = camMove.add(horizontalForward.scale(SPEED));
+		if (mc.options.keyDown.isDown()) camMove = camMove.add(horizontalForward.scale(-SPEED));
+		if (mc.options.keyLeft.isDown()) camMove = camMove.add(horizontalRight.scale(-SPEED));
+		if (mc.options.keyRight.isDown()) camMove = camMove.add(horizontalRight.scale(SPEED));
 
 		player.setPos(
 				player.getX() + camMove.x,

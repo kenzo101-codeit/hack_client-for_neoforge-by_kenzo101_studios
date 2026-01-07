@@ -14,22 +14,24 @@ public final class HealthTagsBroadcaster {
 
 	@SubscribeEvent
 	public static void onServerTick(ServerTickEvent.Post event) {
-		if (!(event.getLevel() instanceof ServerLevel level)) return;
+		var server = event.getServer();
+		if (server == null) return;
 
-		for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class, level.getWorldBorder().getBounds())) {
-			float health = living.getHealth();
-			float max = living.getMaxHealth();
-			int id = living.getId();
+		for (ServerLevel level : server.getAllLevels()) {
+			for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class)) {
+				float health = living.getHealth();
+				float max = living.getMaxHealth();
+				int id = living.getId();
 
-			HealthTagPayloads.HealthUpdate msg = new HealthTagPayloads.HealthUpdate(id, health, max);
-			for (ServerPlayer player : level.players()) {
-				// Send to players near the entity (optional: distance check)
-				player.connection.send(msg);
+				HealthTagsPayloads.HealthUpdate msg = new HealthTagsPayloads.HealthUpdate(id, health, max);
+				for (ServerPlayer player : level.players()) {
+					player.connection.send(msg);
+				}
 			}
 		}
 	}
 
 	public static void init() {
-		NeoForge.EVENT_BUS.register(HealthTagBroadcaster.class);
+		NeoForge.EVENT_BUS.register(HealthTagsBroadcaster.class);
 	}
 }
