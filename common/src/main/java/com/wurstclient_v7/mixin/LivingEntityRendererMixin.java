@@ -18,7 +18,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
 	// Alternative: Try without the full signature, let Mixin figure it out
 	@Inject(
-			method = "render",
+			method = "render", // Just the name, no descriptor
 			at = @At("TAIL")
 	)
 	private void onRender(T entity, float yaw, float partialTicks, PoseStack poseStack,

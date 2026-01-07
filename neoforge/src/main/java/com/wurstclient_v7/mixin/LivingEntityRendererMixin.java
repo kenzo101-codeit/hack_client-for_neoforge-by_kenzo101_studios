@@ -15,16 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> {
 
-	// Match the exact method signature from decompiled code
+	// Try with just the method name, Loom should handle the rest
 	@Inject(
-			method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+			method = "render", // Just the name, no descriptor
 			at = @At("TAIL")
 	)
-	private void addHealthTag(T entity, float g, float h, PoseStack poseStack,
-	                          MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
-
-		// Import will be fixed once we have HealthTagsMain in root package
-		// For now, let's just compile:
+	private void addHealthTag(T entity, float yaw, float partialTicks,
+	                          PoseStack poseStack, MultiBufferSource buffer,
+	                          int packedLight, CallbackInfo ci) {
 		if (!com.wurstclient_v7.HealthTagsMain.isEnabled()) return;
 
 		float health = entity.getHealth();

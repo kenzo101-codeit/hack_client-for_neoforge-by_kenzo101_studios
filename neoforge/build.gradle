@@ -43,8 +43,8 @@ dependencies {
     // This is the CORRECT way to declare NeoForge dependency for Loom
     neoForge "net.neoforged:neoforge:21.1.217"
 
-    compileOnly name: 'mixin-0.8.2'
-    annotationProcessor name: 'mixin-0.8.2-processor'
+    compileOnly("net.fabricmc:sponge-mixin:0.17.0+mixin.0.8.7")
+    annotationProcessor("net.fabricmc:sponge-mixin:0.17.0+mixin.0.8.7")
 
     // These should be provided by NeoForge already
     compileOnly "org.joml:joml:1.10.5"
