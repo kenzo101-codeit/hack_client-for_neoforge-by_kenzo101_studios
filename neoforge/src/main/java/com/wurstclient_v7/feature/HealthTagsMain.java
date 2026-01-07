@@ -3,7 +3,7 @@ package com.wurstclient_v7;
 import com.wurstclient_v7.config.NeoForgeConfigManager;
 import com.wurstclient_v7.client.HealthTagClientCache;
 import com.wurstclient_v7.net.HealthTagsPayloads;
-import com.wurstclient_v7.server.HealthTagBroadcaster;
+import com.wurstclient_v7.server.HealthTagsBroadcaster;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
