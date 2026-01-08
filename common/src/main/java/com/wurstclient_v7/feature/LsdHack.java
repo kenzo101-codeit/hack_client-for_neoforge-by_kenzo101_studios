@@ -1,52 +1,46 @@
 package com.wurstclient_v7.feature;
 
-import com.wurstclient_v7.config.ConfigManager;
+import com.wurstclient_v7.config.NeoForgeConfigManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 public final class LsdHack {
-
 	private static final Minecraft MC = Minecraft.getInstance();
 	private static final ResourceLocation LSD_SHADER =
-			ResourceLocation.fromNamespaceAndPath(
-					"wurst_client_on_neoforge",
-					"post_effect/lsd.json"
-			);
+			ResourceLocation.fromNamespaceAndPath("wurst_client_on_neoforge", "post/lsd.json");
 
 	private static boolean enabled = false;
 
 	public static void toggle() {
-		if (enabled) {
-			disable();
-		} else {
-			enable();
-		}
+		enabled = !enabled;
+		NeoForgeConfigManager.setBoolean("lsd.enabled", enabled);
 	}
 
 	public static boolean isEnabled() {
 		return enabled;
 	}
 
-	public static void enable() {
-		if (enabled) return;
-		if (MC.level == null || MC.player == null) return;
+	public void enable() {
+		if (enabled)
+			return;
 
-		// Ensure no other shader is active
-		MC.gameRenderer.shutdownEffect();
+		if (MC.level == null || MC.player == null)
+			return;
 
-		// ✅ Correct modern call
-		MC.gameRenderer.enablePostEffect(LSD_SHADER);
+		if (MC.gameRenderer.currentEffect() != null)
+			MC.gameRenderer.shutdownEffect();
 
+		MC.gameRenderer.loadEffect(LSD_SHADER);
 		enabled = true;
-		ConfigManager.setBoolean("lsd.enabled", true);
 	}
 
-	public static void disable() {
-		if (!enabled) return;
+	public void disable() {
+		if (!enabled)
+			return;
 
-		MC.gameRenderer.shutdownEffect();
+		if (MC.gameRenderer.currentEffect() != null)
+			MC.gameRenderer.shutdownEffect();
 
 		enabled = false;
-		ConfigManager.setBoolean("lsd.enabled", false);
 	}
 }

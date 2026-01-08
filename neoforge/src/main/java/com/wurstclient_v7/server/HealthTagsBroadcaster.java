@@ -18,7 +18,7 @@ public final class HealthTagsBroadcaster {
 		if (server == null) return;
 
 		for (ServerLevel level : server.getAllLevels()) {
-			for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class, level.getWorldBorder().getCollisionShape())) {
+			for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class, level.getWorldBorder().getCollisionShape().bounds())) {
 				float health = living.getHealth();
 				float max = living.getMaxHealth();
 				int id = living.getId();

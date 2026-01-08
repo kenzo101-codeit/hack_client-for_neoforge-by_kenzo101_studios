@@ -1,9 +1,7 @@
 package com.wurstclient_v7.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+
 @Mixin(net.minecraft.client.renderer.entity.EntityRenderer.class) // Fully qualified target class
 public abstract class EntityRendererMixin<T extends LivingEntity> {
 
@@ -19,7 +18,7 @@ public abstract class EntityRendererMixin<T extends LivingEntity> {
 			method = "render",
 			at = @At("TAIL")
 	)
-	private void onRender(T entity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
+	public void onRender(T entity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci, MultiBufferSource buffer) {
 		if (!(entity instanceof LivingEntity livingEntity)) return;
 		if (!com.wurstclient_v7.HealthTagsMain.isEnabled()) return;
 

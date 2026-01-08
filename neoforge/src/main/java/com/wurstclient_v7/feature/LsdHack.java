@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 public final class LsdHack {
 	private static final Minecraft MC = Minecraft.getInstance();
 	private static final ResourceLocation LSD_SHADER =
-			ResourceLocation.fromNamespaceAndPath("wurst_client_on_neoforge", "post_effect/lsd.json");
+			ResourceLocation.fromNamespaceAndPath("wurst_client_on_neoforge", "post/lsd.json");
 
 	private static boolean enabled = false;
 
