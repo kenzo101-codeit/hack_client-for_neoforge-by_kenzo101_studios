@@ -28,31 +28,38 @@ public class ModuleScreen extends Screen {
     }
 
     public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
-        //Removed System.out.println("[DEBUG] ModuleScreen render method called.");
         renderBackground(gfx, mouseX, mouseY, partialTick);
-        int x = (this.width - 120) / 2;
-        int y = (this.height - 262) / 2;
-        gfx.fill(x, y, x + 120, y + 262, -1442831821);
-        gfx.drawString(this.font, this.title, x + (120 - this.font.width(this.title.getString())) / 2, y + 8, -4599297, false);
-        int lineY = y + 8 + 16;
-        renderModule(gfx, x, lineY, "kill-aura", KillAura.isEnabled(), "kill_aura_toggle");
-        lineY += 12;
-        renderModule(gfx, x, lineY, "autoattack", AutoAttack.isEnabled(), "autoattack_toggle");
-        lineY += 12;
-        String shLabel = "speedhack";
-        String shStatus = SpeedHack.isEnabled() ? "ON" : "OFF";
-        double shMult = NeoForgeConfigManager.getDouble("speed.multiplier", 1.5D);
-        gfx.drawString(this.font, shLabel, x + 8, lineY, -1, false);
-        gfx.drawString(this.font, shStatus, x + 120 - 8 - this.font.width(shStatus) - 60, lineY, SpeedHack.isEnabled() ? -10027162 : -39322, false);
-        String shMultText = String.format("x%.2f", new Object[] { Double.valueOf(shMult) });
-        gfx.drawString(this.font, shMultText, x + 120 - 8 - this.font.width(shMultText), lineY, -3355444, false);
-        String shBinding = (this.listeningAction != null && this.listeningAction.equals("speedhack_toggle")) ? "Press any key..." : KeybindManager.getLabel("speedhack_toggle");
-        gfx.drawString(this.font, shBinding, x + 120 - 8 - this.font.width(shBinding), lineY, -86, false);
 
+        // Calculate dynamic height based on registry size + title space
+        int totalModules = ModuleRegistry.MODULES.size();
+        int dynamicHeight = 32 + (totalModules * 12);
+
+        int x = (this.width - WIDTH) / 2;
+        int y = (this.height - dynamicHeight) / 2;
+
+        // Draw Background Box
+        gfx.fill(x, y, x + WIDTH, y + dynamicHeight, -1442831821);
+
+        // Draw Title
+        gfx.drawString(this.font, this.title, x + (WIDTH - this.font.width(this.title.getString())) / 2, y + 8, -4599297, false);
+
+        int lineY = y + 24;
+
+        // ONLY use the loop. Do not hard-code kill-aura, speedhack, etc. here.
         for (Map.Entry<String, ModuleRegistry.ModuleToggle> entry : ModuleRegistry.MODULES.entrySet()) {
             String modName = entry.getKey();
             boolean enabled = entry.getValue().isEnabled();
+
+            // Use your existing renderModule helper
             renderModule(gfx, x, lineY, modName.toLowerCase(), enabled, modName.toLowerCase() + "_toggle");
+
+            // Special case for speedhack multiplier display if you want it
+            if (modName.equalsIgnoreCase("speedhack")) {
+                double shMult = NeoForgeConfigManager.getDouble("speed.multiplier", 1.5D);
+                String shMultText = String.format("x%.2f", shMult);
+                gfx.drawString(this.font, shMultText, x + WIDTH - 45 - this.font.width(shMultText), lineY, -3355444, false);
+            }
+
             lineY += 12;
         }
 
@@ -73,170 +80,31 @@ public class ModuleScreen extends Screen {
             this.listeningAction = null;
             return true;
         }
+
+        int totalModules = ModuleRegistry.MODULES.size();
+        int dynamicHeight = 32 + (totalModules * 12);
         int x = (this.width - WIDTH) / 2;
-        int y = (this.height - HEIGHT) / 2;
-        int lineY = y + 8 + 16;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            KillAura.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("kill_aura_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            AutoAttack.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("autoattack_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            if (button == 1) {
-                double[] presets = { 1.0D, 1.25D, 1.5D, 2.0D, 2.5D };
-                double cur = NeoForgeConfigManager.getDouble("speed.multiplier", 1.5D);
-                int idx = 0;
-                for (int i = 0; i < presets.length; ) {
-                    if (Math.abs(presets[i] - cur) < 0.001D) {
-                        idx = i;
-                        break;
-                    }
-                    i++;
-                }
-                double next = presets[(idx + 1) % presets.length];
-                NeoForgeConfigManager.setDouble("speed.multiplier", next);
-                SpeedHack.onClientTick();
-            } else {
-                SpeedHack.toggle();
-            }
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("speedhack_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            FullBright.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("fullbright_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            Flight.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("flight_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            NoFall.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("nofall_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            XRay.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("xray_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            Jetpack.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("jetpack_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            Nuker.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("nuker_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            Spider.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("spider_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            ESP.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("esp_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            Tracers.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("tracers_toggle", button);
-            return true;
-        }
-        lineY += 12;
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            AndromedaBridge.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("andromeda_toggle", button);
-            return true;
-        }
-        lineY += 12; // THIS IS THE FIX: Move the hitbox down for the next module!
+        int y = (this.height - dynamicHeight) / 2;
+        int lineY = y + 24;
 
-        // SafeWalk Click
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            com.wurstclient_v7.feature.SafeWalk.toggle();
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("safewalk_toggle", button);
-            return true;
-        }
-        lineY += 12; // Move down again for GodMode
+        for (Map.Entry<String, ModuleRegistry.ModuleToggle> entry : ModuleRegistry.MODULES.entrySet()) {
+            String modName = entry.getKey();
+            String action = modName.toLowerCase() + "_toggle";
 
-        // GodMode Click
-        if (checkClick(mouseX, mouseY, x, lineY)) {
-            if (button == 1) { // Right Click
-                if (GodMode.getTarget().equals("Self")) {
-                    GodMode.setTarget("Everyone");
-                } else {
-                    GodMode.setTarget("");
-                }
-            } else {
-                GodMode.toggle();
+            // Check if we clicked the toggle or the bind area
+// Check if we clicked the toggle or the bind area
+            if (checkClick(mouseX, mouseY, x, lineY)) {
+                // 1. Get the toggle logic using a switch or if/else block
+                toggleModuleByName(modName);
+                return true;
             }
-            return true;
-        }
-        if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
-            handleBindClick("godmode_toggle", button);
-            return true;
+
+            if (checkBindClick(mouseX, mouseY, x, lineY, button)) {
+                handleBindClick(action, button);
+                return true;
+            }
+
+            lineY += 12;
         }
 
         return super.mouseClicked(mouseX, mouseY, button);
@@ -275,5 +143,26 @@ public class ModuleScreen extends Screen {
             return true;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    private void toggleModuleByName(String name) {
+        switch (name.toLowerCase()) {
+            case "killaura": KillAura.toggle(); break;
+            case "autoattack": AutoAttack.toggle(); break;
+            case "speedhack": SpeedHack.toggle(); break;
+            case "fullbright": FullBright.toggle(); break;
+            case "flight": Flight.toggle(); break;
+            case "nofall": NoFall.toggle(); break;
+            case "xray": XRay.toggle(); break;
+            case "jetpack": Jetpack.toggle(); break;
+            case "nuker": Nuker.toggle(); break;
+            case "spider": Spider.toggle(); break;
+            case "esp": ESP.toggle(); break;
+            case "tracers": Tracers.toggle(); break;
+            case "andromeda": AndromedaBridge.toggle(); break;
+            case "safewalk": com.wurstclient_v7.feature.SafeWalk.toggle(); break;
+            case "godmode": GodMode.toggle(); break;
+            case "lsd": LsdHack.toggle(); break;
+        }
     }
 }
