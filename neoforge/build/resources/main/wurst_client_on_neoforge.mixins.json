@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "com.wurstclient_v7.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "refmap": "neoforge.refmap.json",
+  "client": [],
+  "mixins": [
+    "ClientTickMixin",
+    "EntityMixin",
+    "InGameHudMixin",
+    "SafeWalkMixin",
+    "WorldRendererMixin",
+    "XRayMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
