@@ -1,8 +1,10 @@
 package com.wurstclient_v7.feature;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.wurstclient_v7.config.NeoForgeConfigManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -11,7 +13,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
-
 
 public final class Tracers {
 
@@ -27,47 +28,41 @@ public final class Tracers {
         return enabled;
     }
 
-    public static void render(Matrix4f matrix) {
+    public static void render(PoseStack poseStack, float partialTick) {
         if (!enabled) return;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
 
-        Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
-        Vec3 start = mc.player.getEyePosition().subtract(camPos);
+        Camera camera = mc.gameRenderer.getMainCamera();
+        Vec3 camPos = camera.getPosition();
 
-        // IMPORTANT: This allows the lines to be seen through walls
+        Vec3 start = mc.player.getEyePosition(partialTick).subtract(camPos);
+
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-
-        // Set the shader so Minecraft knows how to process these vertices
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         MultiBufferSource.BufferSource buffers = mc.renderBuffers().bufferSource();
-
-        // We use a basic LineStrip or Lines format
         VertexConsumer consumer = buffers.getBuffer(RenderType.lines());
+
+        Matrix4f matrix = poseStack.last().pose();
 
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (!(entity instanceof Player) || entity == mc.player) continue;
 
-            Vec3 end = entity.getPosition(1.0F)
+            Vec3 end = entity.getPosition(partialTick)
                     .add(0, entity.getBbHeight() / 2.0, 0)
                     .subtract(camPos);
 
-            // First Vertex (Start at your eyes)
             consumer.addVertex(matrix, (float) start.x, (float) start.y, (float) start.z)
-                    .setColor(0f, 1f, 0f, 1f)
-                    .setNormal(0f, 1f, 0f); // If setNormal fails, try just ending the chain here
+                    .setColor(0f, 1f, 0f, 1f);
 
-            // Second Vertex (End at the target player)
             consumer.addVertex(matrix, (float) end.x, (float) end.y, (float) end.z)
-                    .setColor(0f, 1f, 0f, 1f)
-                    .setNormal(0f, 1f, 0f);
+                    .setColor(0f, 1f, 0f, 1f);
         }
 
-        // Force the buffer to draw NOW
         buffers.endBatch(RenderType.lines());
 
         RenderSystem.enableDepthTest();

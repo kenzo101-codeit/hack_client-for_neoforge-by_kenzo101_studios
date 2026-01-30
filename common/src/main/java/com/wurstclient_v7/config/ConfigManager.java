@@ -14,7 +14,6 @@ public final class ConfigManager {
     private static final Properties PROPS = new Properties();
 
     static {
-        PROPS.setProperty("airplace.enabled", "false");
         PROPS.setProperty("andromeda.enabled", "false");
         PROPS.setProperty("autoattack.enabled", "false");
         PROPS.setProperty("boatfly.enabled", "false");
@@ -23,8 +22,6 @@ public final class ConfigManager {
         PROPS.setProperty("freecam.enabled", "false");
         PROPS.setProperty("fullbright.enabled", "false");
         PROPS.setProperty("glide.enabled", "false");
-        PROPS.setProperty("godmode.enabled", "false");
-        PROPS.setProperty("healthtags.enabled", "false");
         PROPS.setProperty("jesus.enabled", "false");
         PROPS.setProperty("jetpack.enabled", "false");
         PROPS.setProperty("killaura.enabled", "false");

@@ -1,6 +1,7 @@
 package com.wurstclient_v7.mixin;
 
 import com.wurstclient_v7.feature.Tracers;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.GameRenderer;
@@ -12,21 +13,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = LevelRenderer.class, remap = false)
+@Mixin(LevelRenderer.class)
 public class WorldRendererMixin {
 
-    @Inject(method = "renderLevel", at = @At("TAIL"))
+    @Inject(
+            method = "renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/DeltaTracker;ZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
+            at = @At("TAIL")
+    )
     private void onRenderLevel(
+            PoseStack poseStack,
             DeltaTracker deltaTracker,
             boolean renderBlockOutline,
             Camera camera,
             GameRenderer gameRenderer,
             LightTexture lightTexture,
             Matrix4f projectionMatrix,
-            Matrix4f modelViewMatrix,
             CallbackInfo ci
     ) {
-        float partialTicks = deltaTracker.getGameTimeDeltaPartialTick(false);
-        Tracers.render(modelViewMatrix);
+        float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
+        Tracers.render(poseStack, partialTick);
     }
 }

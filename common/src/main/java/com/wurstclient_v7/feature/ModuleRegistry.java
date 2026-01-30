@@ -10,6 +10,7 @@ public final class ModuleRegistry {
 	static {
 		MODULES.put("KillAura", KillAura::isEnabled);
 		MODULES.put("AutoAttack", AutoAttack::isEnabled);
+		MODULES.put("BoatFly",BoatFly::isEnabled);
 		MODULES.put("SpeedHack", SpeedHack::isEnabled);
 		MODULES.put("FullBright", FullBright::isEnabled);
 		MODULES.put("Flight", Flight::isEnabled);
@@ -22,8 +23,7 @@ public final class ModuleRegistry {
 		MODULES.put("Tracers", Tracers::isEnabled);
 		MODULES.put("AndromedaBridge", AndromedaBridge::isEnabled);
 		MODULES.put("SafeWalk", SafeWalk::isEnabled);
-		MODULES.put("LSD", LsdHack::isEnabled);      // FIXED
-		MODULES.put("BoatFly", BoatFly::isEnabled);
+		MODULES.put("LSD", LsdHack::isEnabled);
 	}
 
 	public interface ModuleToggle {
