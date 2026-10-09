@@ -41,3 +41,17 @@ Check out my ElytraMace Project as well!
 ### ![Static Badge](https://img.shields.io/badge/My%20ElytraMace%20Project%20Based%20On%20johsar's%20Mod%20On%20Modrinth-blue?style=flat&logo=https%3A%2F%2Fbr.vexels.com%2Flogos%2Flink%2F&link=https%3A%2F%2Fgithub.com%2Fkenzo101-codeit%2FElytraMace-MOD-ORIGINAL_IDEA_BY_johsar_ON_MODRINTH-%2F)
 
 ### PS 2: if you see this thanks to tewaltpro for fixing an annoying blurring issue. go check him out! [https://github.com/tewaltpro/Hack-Client-for-NeoForge-1.21.1](https://github.com/tewaltpro/Hack-Client-for-NeoForge-1.21.1)
+
+# Also!
+
+[The Issue Link](https://github.com/kenzo101-codeit/hack_client-for_neoforge-by_kenzo101_studios/issues/10)
+
+Hello. go check out [the new repo that has the mod](https://github.com/E3418/Hack-Client-for-NeoForge-1.21.1) or just access https://github.com/E3418/Hack-Client-for-NeoForge-1.21.1
+
+thanks to E3418 for also removing non functional features(they were a mess and i couldnt get them to work).
+
+and thanks to tewaltpro for previously fixing the tracers: https://github.com/E3418/Hack-Client-for-NeoForge-1.21.1
+
+This project will mostly likely be discontinued from my part as i am also neeeding to study a lot and stuff(not gonna bore you with ts) but yeah.
+
+Kenzo101 Studios out-_-
