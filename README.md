@@ -50,7 +50,7 @@ Hello. go check out [the new repo that has the mod](https://github.com/E3418/Hac
 
 thanks to E3418 for also removing non functional features(they were a mess and i couldnt get them to work).
 
-and thanks to tewaltpro for previously fixing the tracers: https://github.com/E3418/Hack-Client-for-NeoForge-1.21.1
+and thanks to tewaltpro for previously fixing the tracers: [https://github.com/E3418/Hack-Client-for-NeoForge-1.21.1](https://github.com/tewaltpro/Hack-Client-for-NeoForge-1.21.1)
 
 This project will mostly likely be discontinued from my part as i am also neeeding to study a lot and stuff(not gonna bore you with ts) but yeah.
 
