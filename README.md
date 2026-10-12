@@ -2,9 +2,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://choosealicense.com/licenses/mit/)
 
 
-# Hack Client for 1.21.1 (NeoForge)
+# Hack Client for 1.20.4 (NeoForge)
 
-A Wurst-like hack client for Minecraft 1.21.1 with a NeoForge target.
+A Wurst-like hack client for Minecraft 1.20.4 with a NeoForge target.
 
 ## Quick start
 
