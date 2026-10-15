@@ -12,6 +12,7 @@ description = '''
 A HACK CLIENT BRUH
 '''
 logoFile = "java_2025.png"
+displayTest = "IGNORE_ALL_VERSION"
 
 [[dependencies.wurst_client_on_neoforge]]
 modId = "neoforge"

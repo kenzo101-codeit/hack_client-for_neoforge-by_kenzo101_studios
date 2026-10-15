@@ -16,21 +16,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LevelRenderer.class)
 public class WorldRendererMixin {
 
+    // 1.21 dropped the leading PoseStack parameter and added the frustum matrix,
+    // so the signature is (DeltaTracker, boolean, Camera, GameRenderer, LightTexture, frustumMatrix, projectionMatrix).
     @Inject(
-            method = "renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/DeltaTracker;ZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
+            method = "renderLevel(Lnet/minecraft/client/DeltaTracker;ZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;)V",
             at = @At("TAIL"),
             remap = false
     )
     private void onRenderLevel(
-            PoseStack poseStack,
             DeltaTracker deltaTracker,
             boolean renderBlockOutline,
             Camera camera,
             GameRenderer gameRenderer,
             LightTexture lightTexture,
+            Matrix4f frustumMatrix,
             Matrix4f projectionMatrix,
             CallbackInfo ci
     ) {
+        // Vanilla builds its world-space stack the same way (see LevelRenderer.renderLevel).
+        PoseStack poseStack = new PoseStack();
+        poseStack.mulPose(frustumMatrix);
+
         float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
         Tracers.render(poseStack, partialTick);
     }

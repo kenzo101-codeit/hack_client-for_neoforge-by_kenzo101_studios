@@ -41,7 +41,9 @@ public final class HealthTagsPayloads {
     }
 
     public static void register(RegisterPayloadHandlersEvent event, IPayloadHandler<HealthUpdate> clientHandler) {
-        PayloadRegistrar registrar = event.registrar("wurst_client_on_neofprge");
+        // .optional() keeps the channel from being advertised as required, which
+        // otherwise makes NeoForge refuse every connection to a non-NeoForge server.
+        PayloadRegistrar registrar = event.registrar("wurst_client_on_neoforge").optional();
         registrar.playToClient(HealthUpdate.TYPE, HealthUpdate.CODEC, clientHandler);
     }
 }
